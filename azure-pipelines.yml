@@ -1,0 +1,25 @@
+trigger:
+- main  # Trigger the pipeline when changes are pushed to the 'main' branch
+- develop/vNext
+
+pr:
+- main  # Trigger the pipeline when pull requests target the 'main' branch
+- develop/vNext
+
+pool:
+  vmImage: 'windows-latest'  # You can choose an appropriate VM image
+
+stages:
+- stage: Build
+  jobs:
+  - job: Build
+    steps:
+    - script: echo "Building the application"
+    # Add your build steps here
+
+- stage: Test
+  jobs:
+  - job: Test
+    steps:
+    - script: echo "Running tests"
+    # Add your test steps here
