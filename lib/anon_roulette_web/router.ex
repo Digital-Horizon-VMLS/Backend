@@ -40,6 +40,11 @@ defmodule AnonRouletteWeb.Router do
     get "/friends", FriendController, :index
     get "/friends/:friend_id", FriendController, :show
     delete "/friends/:friend_id", FriendController, :delete
+
+    get "/friend-requests", FriendRequestController, :index
+    post "/friend-requests", FriendRequestController, :create
+    get "/friend-requests/:friend_request_id", FriendRequestController, :show
+    patch "/friend-requests/:friend_request_id", FriendRequestController, :update
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development

@@ -213,6 +213,84 @@ paths:
       responses:
         '204':
           description: Successfuly removed a friend by their ID.
+  /api/friend-requests:
+    get:
+      summary: Get a list of friend requests.
+      tags:
+        - Friend Requests
+      responses:
+        '200':
+          description: Successfuly retrieved a list of friend requests.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Friend Request'
+    post:
+      summary: Create a friend request.
+      tags:
+        - Friend Requests
+      requestBody:
+        description: User ID of the recipient and message for the friend request.
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                recipient:
+                  type: integer
+                  example: 2
+                message:
+                  type: string
+                  example: "I noticed we're into some similar stuff. You are awesome, and I thought it'd be cool to connect! 😊"
+              required:
+                - recipient
+      responses:
+        '200':
+          description: Successfuly created a friend request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Friend Request'
+  /api/friend_requests/{friend_request_id}:
+    parameters:
+      - name: "friend_request_id"
+        in: path
+        required: true
+        description: ID of the friend request.
+        schema:
+          type: integer
+    get:
+      summary: Get a friend request by their ID.
+      tags:
+        - Friend Requests
+      responses:
+        '200':
+          description: Successfuly retrieved a friend request by their ID.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Friend Request'
+    patch:
+      summary: Update a friend request by their ID.
+      tags:
+        - Friend Requests
+      requestBody:
+        description: New status for friend request.
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                status:
+                  type: string
+                  example: REJECTED
+              required:
+                - status
+      responses:
+        '204':
+          description: Successfuly updated a friend request by their ID.
 components:
   schemas:
     Category:
@@ -298,3 +376,25 @@ components:
         ethnicity:
           type: string
           example: Hispanic
+    Friend Request:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        message:
+          type: string
+          example: "I noticed we're into some similar stuff. You are awesome, and I thought it'd be cool to connect! 😊"
+        status:
+          type: string
+          example: ACCEPTED
+        recipient:
+          type: integer
+          example: 2
+        sender:
+          type: integer
+          example: 1
+        sentDate:
+          type: string
+          format: date
+          example: 2023-02-11
