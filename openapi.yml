@@ -3,9 +3,45 @@ info:
   title: Anonymous Roulette API
   version: 0.1.0
 paths:
+  /api/categories:
+    get:
+      summary: Get a list of categories.
+      tags:
+        - Categories
+      responses:
+        '200':
+          description: Successfuly retrieved a list of categories.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Category'
+  /api/categories/{category_id}:
+    parameters:
+      - name: "category_id"
+        in: path
+        required: true
+        description: ID of the category.
+        schema:
+          type: integer
+    get:
+      summary: Get a category by their ID.
+      tags:
+        - Categories
+      responses:
+        '200':
+          description: Successfuly retrieved a category by their ID.
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/Category'
   /api/users:
     post:
       summary: Create a user.
+      tags:
+        - Users
       requestBody:
         description: Username and password for the new user.
         content:

@@ -26,6 +26,8 @@ defmodule AnonRouletteWeb.Router do
     pipe_through :api
 
     # Token unrequired
+    get "/categories", CategoriesController, :index
+    get "/categories/:category_id", CategoriesController, :show
 
     # Token required
     post "/users", UserController, :create
