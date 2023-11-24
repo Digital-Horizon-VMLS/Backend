@@ -154,13 +154,13 @@ paths:
                 description:
                   type: string
                   example: Hey, friends! I'm Johnathan Doeman, your friendly neighborhood enthusiast of all things life has to offer.
-                first_name:
+                firstName:
                   type: string
                   example: Johnathan
-                last_name:
+                lastName:
                   type: string
                   example: Doeman
-                birth_date:
+                birthDate:
                   type: string
                   format: date
                   example: 2002-02-02
