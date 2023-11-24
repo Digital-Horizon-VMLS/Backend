@@ -55,9 +55,9 @@ paths:
                 email:
                   type: string
                   example: johndoe@email.com
-            required:
-              - username
-              - email
+              required:
+                - username
+                - email
       responses:
         '200':
           description: Successfuly created a user.
@@ -98,8 +98,8 @@ paths:
                 password:
                   type: string
                   example: mypassword
-            required:
-              - password
+              required:
+                - password
       responses:
         '204':
           description: Successfuly deleted a user by their ID.
