@@ -77,7 +77,7 @@ paths:
       summary: Get a user by their ID.
       responses:
         '200':
-          description: Successfuly retrived a user by their ID.
+          description: Successfuly retrieved a user by their ID.
           content:
             application/json:
               schema:
@@ -132,6 +132,15 @@ paths:
           description: Successfuly updated a user by their ID.
 components:
   schemas:
+    Category:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: Sports
     User:
       type: object
       properties:
