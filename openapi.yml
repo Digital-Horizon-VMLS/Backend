@@ -75,6 +75,8 @@ paths:
           type: integer
     get:
       summary: Get a user by their ID.
+      tags:
+        - Users
       responses:
         '200':
           description: Successfuly retrieved a user by their ID.
@@ -84,6 +86,8 @@ paths:
                 $ref: '#/components/schemas/User'
     delete:
       summary: Delete a user by their ID.
+      tags:
+        - Users
       requestBody:
         description: Password of the user.
         content:
@@ -101,6 +105,8 @@ paths:
           description: Successfuly deleted a user by their ID.
     patch:
       summary: Update a user by their ID.
+      tags:
+        - Users
       requestBody:
         description: User information to update.
         content:
