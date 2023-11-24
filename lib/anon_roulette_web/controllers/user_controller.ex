@@ -17,7 +17,7 @@ defmodule AnonRouletteWeb.UserController do
     %{
       id: 2,
       username: "janethevisible",
-      email: "johndoe@email.com",
+      email: "janedoe@email.com",
       profile_picture:
         "https://en.wikipedia.org/wiki/Jane_(given_name)#/media/File:Streathamladyjayne.jpg",
       first_name: "Jane",
