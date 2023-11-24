@@ -170,6 +170,46 @@ paths:
       responses:
         '204':
           description: Successfuly updated a user by their ID.
+  /api/friends:
+    get:
+      summary: Get a list of friends.
+      tags:
+        - Friends
+      responses:
+        '200':
+          description: Successfuly retrieved a list of friends.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Friend'
+  /api/friends/{friend_id}:
+    parameters:
+      - name: "friend_id"
+        in: path
+        required: true
+        description: ID of the friend.
+        schema:
+          type: integer
+    get:
+      summary: Get a friend by their ID.
+      tags:
+        - Friends
+      responses:
+        '200':
+          description: Successfuly retrieved a friend by their ID.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Friend'
+    delete:
+      summary: Remove a friend by their ID.
+      tags:
+        - Friends
+      responses:
+        '204':
+          description: Successfuly removed a friend by their ID.
 components:
   schemas:
     Category:
@@ -221,3 +261,31 @@ components:
         anonymous:
           type: boolean
           example: true
+    Friend:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 2
+        username:
+          type: string
+          example: janethevisible
+        email:
+          type: string
+          example: janedoe@email.com
+        profilePicture:
+          type: string
+          example: https://en.wikipedia.org/wiki/Jane_(given_name)#/media/File:Streathamladyjayne.jpg
+        firstName:
+          type: string
+          example: Jane
+        lastName:
+          type: string
+          example: Doe
+        birthDate:
+          type: string
+          format: date
+          example: 1994-02-03
+        ethnicity:
+          type: string
+          example: Hispanic

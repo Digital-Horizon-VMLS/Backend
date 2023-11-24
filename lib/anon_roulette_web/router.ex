@@ -37,6 +37,9 @@ defmodule AnonRouletteWeb.Router do
     delete "/users/:user_id", UserController, :delete
     patch "/users/:user_id", UserController, :update
 
+    get "/friends", FriendController, :index
+    get "/friends/:friend_id", FriendController, :show
+    delete "/friends/:friend_id", FriendController, :delete
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
