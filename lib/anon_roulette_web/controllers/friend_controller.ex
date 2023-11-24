@@ -8,6 +8,8 @@ defmodule AnonRouletteWeb.FriendController do
       email: "janedoe@email.com",
       profile_picture:
         "https://en.wikipedia.org/wiki/Jane_(given_name)#/media/File:Streathamladyjayne.jpg",
+      description:
+        "Hey, lovely souls! I'm Jane, your friendly neighborhood dreamer with a heart full of wanderlust. By day, you can find me lost in the pages of a good book, and by night, I'm chasing sunsets and stargazing.",
       first_name: "Jane",
       last_name: "Doe",
       birth_date: ~D[1994-02-03],
@@ -19,6 +21,8 @@ defmodule AnonRouletteWeb.FriendController do
       email: "gerbillover@email.com",
       profile_picture:
         "https://en.wikipedia.org/wiki/Mongolian_gerbil#/media/File:Meriones_unguiculatus_(wild).jpg",
+      description:
+        "As a self-proclaimed Gerbil Dad, I'm on a mission to spread the love for these underrated pets. Join me on this adventure of fluffy tails, tiny paws, and heartwarming squeaks. Let's exchange tips on creating the ultimate gerbil paradise and share stories of our little buddies' antics.",
       first_name: "Alden",
       last_name: "Luukuroff",
       birth_date: ~D[1987-09-04],
@@ -41,6 +45,7 @@ defmodule AnonRouletteWeb.FriendController do
           username: "mock",
           email: "mock@email.com",
           profile_picture: "https://en.wikipedia.org/static/images/icons/wikipedia.png",
+          description: "Mock",
           first_name: "Mock",
           last_name: "Mock",
           birth_date: ~D[2001-01-01],

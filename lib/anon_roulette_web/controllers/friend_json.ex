@@ -19,6 +19,7 @@ defmodule AnonRouletteWeb.FriendJSON do
       username: friend.username,
       email: friend.email,
       profilePicture: friend.profile_picture,
+      description: friend.description,
       firstName: friend.first_name,
       lastName: friend.last_name,
       birthDate: friend.birth_date,

@@ -12,6 +12,7 @@ defmodule AnonRouletteWeb.UserJSON do
       username: user.username,
       email: user.email,
       profilePicture: user.profile_picture,
+      description: user.description,
       firstName: user.first_name,
       lastName: user.last_name,
       birthDate: user.birth_date,

@@ -151,6 +151,9 @@ paths:
                 email:
                   type: string
                   example: johnthenew@update.com
+                description:
+                  type: string
+                  example: Hey, friends! I'm Johnathan Doeman, your friendly neighborhood enthusiast of all things life has to offer.
                 first_name:
                   type: string
                   example: Johnathan
@@ -245,6 +248,9 @@ components:
         profilePicture:
           type: string
           example: https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/John_and_Jane_Doe_Headstones.jpg
+        description:
+          type: string
+          example: Hey there! I'm John, your friendly neighborhood explorer. By day, I'm immersed in the world of technology, and by night, I'm chasing sunsets and new experiences. Music is my therapy, and I believe a good playlist can change your mood in an instant.
         firstName:
           type: string
           example: John
@@ -276,6 +282,9 @@ components:
         profilePicture:
           type: string
           example: https://en.wikipedia.org/wiki/Jane_(given_name)#/media/File:Streathamladyjayne.jpg
+        description:
+          type: string
+          example: Hey, lovely souls! I'm Jane, your friendly neighborhood dreamer with a heart full of wanderlust. By day, you can find me lost in the pages of a good book, and by night, I'm chasing sunsets and stargazing.
         firstName:
           type: string
           example: Jane
