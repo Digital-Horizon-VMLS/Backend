@@ -291,6 +291,30 @@ paths:
       responses:
         '204':
           description: Successfuly updated a friend request by their ID.
+  /api/reports:
+    post:
+      summary: Report a user.
+      tags:
+        - Reports
+      requestBody:
+        description: User ID of offender and message describing offense.
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                offender:
+                  type: integer
+                  example: 3
+                message:
+                  type: string
+                  example: Reaching out about a persistent annoyance who's been flooding me with relentless and irritating messages.
+              required:
+                - offender
+                - message
+      responses:
+        '204':
+          description: Successfuly reported a user.
 components:
   schemas:
     Category:

@@ -45,6 +45,8 @@ defmodule AnonRouletteWeb.Router do
     post "/friend-requests", FriendRequestController, :create
     get "/friend-requests/:friend_request_id", FriendRequestController, :show
     patch "/friend-requests/:friend_request_id", FriendRequestController, :update
+
+    post "/reports", ReportController, :create
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
