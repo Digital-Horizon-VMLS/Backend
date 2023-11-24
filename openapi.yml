@@ -37,6 +37,40 @@ paths:
               schema:
                 type: object
                 $ref: '#/components/schemas/Category'
+  /api/ethnicities:
+    get:
+      summary: Get a list of ethnicities.
+      tags:
+        - Ethnicities
+      responses:
+        '200':
+          description: Successfuly retrieved a list of ethnicities.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Ethnicity'
+  /api/ethnicities/{ethnicity_id}:
+    parameters:
+      - name: "ethnicity_id"
+        in: path
+        required: true
+        description: ID of the ethnicity.
+        schema:
+          type: integer
+    get:
+      summary: Get a ethnicity by their ID.
+      tags:
+        - Ethnicities
+      responses:
+        '200':
+          description: Successfuly retrieved a ethnicity by their ID.
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/Ethnicity'
   /api/users:
     post:
       summary: Create a user.
@@ -147,6 +181,15 @@ components:
         name:
           type: string
           example: Sports
+    Ethnicity:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: African American
     User:
       type: object
       properties:

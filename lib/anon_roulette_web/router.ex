@@ -28,6 +28,8 @@ defmodule AnonRouletteWeb.Router do
     # Token unrequired
     get "/categories", CategoriesController, :index
     get "/categories/:category_id", CategoriesController, :show
+    get "/ethnicities", EthnicityController, :index
+    get "/ethnicities/:ethnicity_id", EthnicityController, :show
 
     # Token required
     post "/users", UserController, :create
