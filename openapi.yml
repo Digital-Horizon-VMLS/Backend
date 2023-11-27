@@ -1,0 +1,424 @@
+openapi: 3.1.0
+info:
+  title: Anonymous Roulette API
+  version: 0.1.0
+paths:
+  /api/categories:
+    get:
+      summary: Get a list of categories.
+      tags:
+        - Categories
+      responses:
+        '200':
+          description: Successfuly retrieved a list of categories.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Category'
+  /api/categories/{category_id}:
+    parameters:
+      - name: "category_id"
+        in: path
+        required: true
+        description: ID of the category.
+        schema:
+          type: integer
+    get:
+      summary: Get a category by their ID.
+      tags:
+        - Categories
+      responses:
+        '200':
+          description: Successfuly retrieved a category by their ID.
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/Category'
+  /api/ethnicities:
+    get:
+      summary: Get a list of ethnicities.
+      tags:
+        - Ethnicities
+      responses:
+        '200':
+          description: Successfuly retrieved a list of ethnicities.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Ethnicity'
+  /api/ethnicities/{ethnicity_id}:
+    parameters:
+      - name: "ethnicity_id"
+        in: path
+        required: true
+        description: ID of the ethnicity.
+        schema:
+          type: integer
+    get:
+      summary: Get a ethnicity by their ID.
+      tags:
+        - Ethnicities
+      responses:
+        '200':
+          description: Successfuly retrieved a ethnicity by their ID.
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/Ethnicity'
+  /api/users:
+    post:
+      summary: Create a user.
+      tags:
+        - Users
+      requestBody:
+        description: Username and password for the new user.
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  example: johntheanon
+                email:
+                  type: string
+                  example: johndoe@email.com
+              required:
+                - username
+                - email
+      responses:
+        '200':
+          description: Successfuly created a user.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+  /api/users/{user_id}:
+    parameters:
+      - name: "user_id"
+        in: path
+        required: true
+        description: ID of the user.
+        schema:
+          type: integer
+    get:
+      summary: Get a user by their ID.
+      tags:
+        - Users
+      responses:
+        '200':
+          description: Successfuly retrieved a user by their ID.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+    delete:
+      summary: Delete a user by their ID.
+      tags:
+        - Users
+      requestBody:
+        description: Password of the user.
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                password:
+                  type: string
+                  example: mypassword
+              required:
+                - password
+      responses:
+        '204':
+          description: Successfuly deleted a user by their ID.
+    patch:
+      summary: Update a user by their ID.
+      tags:
+        - Users
+      requestBody:
+        description: User information to update.
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: johnthenew@update.com
+                description:
+                  type: string
+                  example: Hey, friends! I'm Johnathan Doeman, your friendly neighborhood enthusiast of all things life has to offer.
+                firstName:
+                  type: string
+                  example: Johnathan
+                lastName:
+                  type: string
+                  example: Doeman
+                birthDate:
+                  type: string
+                  format: date
+                  example: 2002-02-02
+                ethnicity:
+                  type: integer
+                  example: 2
+                anonymous:
+                  type: boolean
+                  example: false
+      responses:
+        '204':
+          description: Successfuly updated a user by their ID.
+  /api/friends:
+    get:
+      summary: Get a list of friends.
+      tags:
+        - Friends
+      responses:
+        '200':
+          description: Successfuly retrieved a list of friends.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Friend'
+  /api/friends/{friend_id}:
+    parameters:
+      - name: "friend_id"
+        in: path
+        required: true
+        description: ID of the friend.
+        schema:
+          type: integer
+    get:
+      summary: Get a friend by their ID.
+      tags:
+        - Friends
+      responses:
+        '200':
+          description: Successfuly retrieved a friend by their ID.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Friend'
+    delete:
+      summary: Remove a friend by their ID.
+      tags:
+        - Friends
+      responses:
+        '204':
+          description: Successfuly removed a friend by their ID.
+  /api/friend-requests:
+    get:
+      summary: Get a list of friend requests.
+      tags:
+        - Friend Requests
+      responses:
+        '200':
+          description: Successfuly retrieved a list of friend requests.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Friend Request'
+    post:
+      summary: Create a friend request.
+      tags:
+        - Friend Requests
+      requestBody:
+        description: User ID of the recipient and message for the friend request.
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                recipient:
+                  type: integer
+                  example: 2
+                message:
+                  type: string
+                  example: "I noticed we're into some similar stuff. You are awesome, and I thought it'd be cool to connect! 😊"
+              required:
+                - recipient
+      responses:
+        '200':
+          description: Successfuly created a friend request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Friend Request'
+  /api/friend_requests/{friend_request_id}:
+    parameters:
+      - name: "friend_request_id"
+        in: path
+        required: true
+        description: ID of the friend request.
+        schema:
+          type: integer
+    get:
+      summary: Get a friend request by their ID.
+      tags:
+        - Friend Requests
+      responses:
+        '200':
+          description: Successfuly retrieved a friend request by their ID.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Friend Request'
+    patch:
+      summary: Update a friend request by their ID.
+      tags:
+        - Friend Requests
+      requestBody:
+        description: New status for friend request.
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                status:
+                  type: string
+                  example: REJECTED
+              required:
+                - status
+      responses:
+        '204':
+          description: Successfuly updated a friend request by their ID.
+  /api/reports:
+    post:
+      summary: Report a user.
+      tags:
+        - Reports
+      requestBody:
+        description: User ID of offender and message describing offense.
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                offender:
+                  type: integer
+                  example: 3
+                message:
+                  type: string
+                  example: Reaching out about a persistent annoyance who's been flooding me with relentless and irritating messages.
+              required:
+                - offender
+                - message
+      responses:
+        '204':
+          description: Successfuly reported a user.
+components:
+  schemas:
+    Category:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: Sports
+    Ethnicity:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: African American
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        username:
+          type: string
+          example: johntheanon
+        email:
+          type: string
+          example: johndoe@email.com
+        profilePicture:
+          type: string
+          example: https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/John_and_Jane_Doe_Headstones.jpg
+        description:
+          type: string
+          example: Hey there! I'm John, your friendly neighborhood explorer. By day, I'm immersed in the world of technology, and by night, I'm chasing sunsets and new experiences. Music is my therapy, and I believe a good playlist can change your mood in an instant.
+        firstName:
+          type: string
+          example: John
+        lastName:
+          type: string
+          example: Doe
+        birthDate:
+          type: string
+          format: date
+          example: 2000-01-01
+        ethnicity:
+          type: string
+          example: African American
+        anonymous:
+          type: boolean
+          example: true
+    Friend:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 2
+        username:
+          type: string
+          example: janethevisible
+        email:
+          type: string
+          example: janedoe@email.com
+        profilePicture:
+          type: string
+          example: https://en.wikipedia.org/wiki/Jane_(given_name)#/media/File:Streathamladyjayne.jpg
+        description:
+          type: string
+          example: Hey, lovely souls! I'm Jane, your friendly neighborhood dreamer with a heart full of wanderlust. By day, you can find me lost in the pages of a good book, and by night, I'm chasing sunsets and stargazing.
+        firstName:
+          type: string
+          example: Jane
+        lastName:
+          type: string
+          example: Doe
+        birthDate:
+          type: string
+          format: date
+          example: 1994-02-03
+        ethnicity:
+          type: string
+          example: Hispanic
+    Friend Request:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        message:
+          type: string
+          example: "I noticed we're into some similar stuff. You are awesome, and I thought it'd be cool to connect! 😊"
+        status:
+          type: string
+          example: ACCEPTED
+        recipient:
+          type: integer
+          example: 2
+        sender:
+          type: integer
+          example: 1
+        sentDate:
+          type: string
+          format: date
+          example: 2023-02-11
