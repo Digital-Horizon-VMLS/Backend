@@ -14,16 +14,40 @@ defmodule AnonRouletteWeb.Router do
     plug :accepts, ["json"]
   end
 
+  # Homepage
   scope "/", AnonRouletteWeb do
     pipe_through :browser
 
     get "/", PageController, :home
   end
 
-  # Other scopes may use custom stacks.
-  # scope "/api", AnonRouletteWeb do
-  #   pipe_through :api
-  # end
+  # API
+  scope "/api", AnonRouletteWeb do
+    pipe_through :api
+
+    # Token unrequired
+    get "/categories", CategoriesController, :index
+    get "/categories/:category_id", CategoriesController, :show
+    get "/ethnicities", EthnicityController, :index
+    get "/ethnicities/:ethnicity_id", EthnicityController, :show
+
+    # Token required
+    post "/users", UserController, :create
+    get "/users/:user_id", UserController, :show
+    delete "/users/:user_id", UserController, :delete
+    patch "/users/:user_id", UserController, :update
+
+    get "/friends", FriendController, :index
+    get "/friends/:friend_id", FriendController, :show
+    delete "/friends/:friend_id", FriendController, :delete
+
+    get "/friend-requests", FriendRequestController, :index
+    post "/friend-requests", FriendRequestController, :create
+    get "/friend-requests/:friend_request_id", FriendRequestController, :show
+    patch "/friend-requests/:friend_request_id", FriendRequestController, :update
+
+    post "/reports", ReportController, :create
+  end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
   if Application.compile_env(:anon_roulette, :dev_routes) do
