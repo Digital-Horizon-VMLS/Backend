@@ -22,17 +22,23 @@ defmodule AnonRouletteWeb.Router do
   end
 
   # API
+  # Token unrequired
   scope "/api", AnonRouletteWeb do
     pipe_through :api
 
     # Token unrequired
+    post "/users", UserController, :create
     get "/categories", CategoriesController, :index
     get "/categories/:category_id", CategoriesController, :show
     get "/ethnicities", EthnicityController, :index
     get "/ethnicities/:ethnicity_id", EthnicityController, :show
+  end
 
-    # Token required
-    post "/users", UserController, :create
+  # Token required
+  scope "/api", AnonRouletteWeb do
+    pipe_through :api
+    pipe_through AnonRouletteWeb.AuthPipeline
+
     get "/users/:user_id", UserController, :show
     delete "/users/:user_id", UserController, :delete
     patch "/users/:user_id", UserController, :update
