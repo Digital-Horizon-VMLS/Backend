@@ -22,6 +22,12 @@ config :anon_roulette, AnonRouletteWeb.Endpoint,
   pubsub_server: AnonRoulette.PubSub,
   live_view: [signing_salt: "oCONVRMT"]
 
+# Configures Guardian
+# Use 'mix guardian.gen.secret' and use output as 'secret_key'
+config :anon_roulette, AnonRouletteWeb.Guardian,
+  issuer: "anon_roulette",
+  secret_key: ""
+
 # Configures the mailer
 #
 # By default it uses the "Local" adapter which stores the emails
