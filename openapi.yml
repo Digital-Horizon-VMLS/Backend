@@ -452,3 +452,8 @@ components:
         refresh_expires_in:
           type: integer
           example: 1732918035
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
