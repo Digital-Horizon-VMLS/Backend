@@ -25,6 +25,18 @@ config :anon_roulette, AnonRoulette.Repo,
   pool_size: 10
 ```
 
+## Setting up Guardian
+The server requires a secret key for guardian configuration. The command `mix guardian.gen.secret` can be used to
+to generate a secret. This secret should be added to the guardian configuration located at `/config/config.exs`.
+Avoid commiting the secret key to the repository or any branches.
+
+### Example Guardian Config
+``` elixir
+config :anon_roulette, AnonRouletteWeb.Guardian,
+  issuer: "anon_roulette",
+  secret_key: "iamasecret"
+```
+
 # Build and Test
 TODO: Describe and show how to build your code and run the tests.
 
