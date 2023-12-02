@@ -422,3 +422,33 @@ components:
           type: string
           format: date
           example: 2023-02-11
+    Access Token:
+      type: object
+      properties:
+        token_type:
+          type: string
+          example: Bearer
+        access_token:
+          type: string
+          example: eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJhbm9uX3JvdWxldHRlIiwiZXhwIjoxNzAxNDY4MTA2LCJpYXQiOjE3MDE0Njc4MDYsImlzcyI6ImFub25fcm91bGV0dGUiLCJqdGkiOiIzMWNhYWE2NS1iNzY0LTRhMmItOTI4MC1mMDJjOTMwNTBkZjciLCJuYmYiOjE3MDE0Njc4MDUsInN1YiI6IjEiLCJ0eXAiOiJhY2Nlc3MifQ.ckOOqsQU393Pp3OYJWyb7I6qhTt3pBVxNdSdchCAk-iXcNx64yvee2UKFFubOXJSwJptwBKWhU_2tbdTE2u4ag
+        access_expires_in:
+          type: integer
+          example: 1601268306
+    Access and Refresh Token:
+      type: object
+      properties:
+        token_type:
+          type: string
+          example: Bearer
+        access_token:
+          type: string
+          example: eyJhbGciOiJIULUxMiIsInRncCI6IkpXVCJ9.eyJhdWQiOiJhbm9uX3JvdWxldHR9IiwiZXhwIjoxNzAxNCY4NzM1LCJpYXQiOjE3MDE0Njg0MzUsImlzcyI6ImFub25fcm91bGV0dGUiLCJqdGkiOiJiODZmMWQ1NC04MDljLTRkYjAtYmRlOC0wNDMxYWRlYzIwNDciLCJuYmYiOjE3MDE0Njg0MzQsInN1YiI6IjEiLCJ0eXAiOiJhY2Nlc3MifQ.8GBI6pudxbXAqE37XFpFYPAEhIUx6gN2UpiMEghBpfDgT5kgSkDavbQWQnVJDKfWVBnjaAxPT2nGdyx4i9xGLw
+        access_expires_in:
+          type: integer
+          example: 1701468735
+        refresh_token:
+          type: string
+          example: eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJhbm9uX3JvdWxldHRlIiwiZXhwIjoxNzMyOTE4MDM1LCJpYXQiOjE3MDE0Njg0MzUsImlzcyI6ImFub25fcm91bGV0dGUiLCJqdGkiOiIyZGUxNWVkNy05NmMzLTQ4ZTQtYTJiNS1mMGU1MjI1NWQxYzgiLCJuYmYiOjE3MDE0Njg0MzQsInN1YiI6IjEiLCJ0eXAiOiJyZWZyZXNoIn7.prA97lyNjJe_LTRhhnPRiUDSoH7laVE9H8f4-xAPrXjzxRf5oyMYm6A-n_uXAi2xX_KlKBNfSsdmg4R92ZeHBA
+        refresh_expires_in:
+          type: integer
+          example: 1732918035
