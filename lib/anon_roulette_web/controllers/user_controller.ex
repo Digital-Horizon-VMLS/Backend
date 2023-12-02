@@ -61,25 +61,31 @@ defmodule AnonRouletteWeb.UserController do
 
   # TODO: Implement functionality
   def show(conn, %{"user_id" => id}) do
-    user =
-      Enum.find(
-        @users_mock,
-        %{
-          id: String.to_integer(id),
-          username: "mock",
-          email: "mock@email.com",
-          profile_picture: "https://en.wikipedia.org/static/images/icons/wikipedia.png",
-          description: "Mock",
-          first_name: "Mock",
-          last_name: "Mock",
-          birth_date: ~D[2001-01-01],
-          ethnicity: "Mock",
-          anonymous: true
-        },
-        &(&1.id == String.to_integer(id))
-      )
+    id = String.to_integer(id)
 
-    render(conn, :show, user: user)
+    if authorized?(conn, id) do
+      user =
+        Enum.find(
+          @users_mock,
+          %{
+            id: id,
+            username: "mock",
+            email: "mock@email.com",
+            profile_picture: "https://en.wikipedia.org/static/images/icons/wikipedia.png",
+            description: "Mock",
+            first_name: "Mock",
+            last_name: "Mock",
+            birth_date: ~D[2001-01-01],
+            ethnicity: "Mock",
+            anonymous: true
+          },
+          &(&1.id == id)
+        )
+
+      render(conn, :show, user: user)
+    else
+      send_resp(conn, 403, "")
+    end
   end
 
   # TODO: Implement functionality
@@ -101,14 +107,31 @@ defmodule AnonRouletteWeb.UserController do
   end
 
   # TODO: Implement functionality
-  def delete(conn, %{"user_id" => _id, "password" => _password}) do
-    conn
-    |> send_resp(204, "")
+  def delete(conn, %{"user_id" => id}) do
+    id = String.to_integer(id)
+
+    if authorized?(conn, id) do
+      conn
+      |> send_resp(204, "")
+    else
+      send_resp(conn, 403, "")
+    end
   end
 
   # TODO: Implement functionality
-  def update(conn, %{"user_id" => _id}) do
-    conn
-    |> send_resp(204, "")
+  def update(conn, %{"user_id" => id}) do
+    id = String.to_integer(id)
+
+    if authorized?(conn, id) do
+      conn
+      |> send_resp(204, "")
+    else
+      send_resp(conn, 403, "")
+    end
+  end
+
+  defp authorized?(conn, resource_id) do
+    %{:id => token_id} = Guardian.Plug.current_resource(conn)
+    token_id == resource_id
   end
 end
