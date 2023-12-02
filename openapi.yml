@@ -452,6 +452,11 @@ components:
         refresh_expires_in:
           type: integer
           example: 1732918035
+  responses:
+    401Unauthenticated:
+      description: Cannot identify user of request.
+    403Unauthorized:
+      description: Requesting user does not have permission to access resource.
   securitySchemes:
     BearerAuth:
       type: http
