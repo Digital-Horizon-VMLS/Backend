@@ -3,7 +3,7 @@ import Config
 # Configure your database
 config :anon_roulette, AnonRoulette.Repo,
   username: "root",
-  password: "",
+  password: "password",
   hostname: "localhost",
   database: "anon_roulette_dev",
   stacktrace: true,
