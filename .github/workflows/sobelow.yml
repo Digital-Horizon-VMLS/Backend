@@ -14,9 +14,13 @@ name: Sobelow
 
 on:
   push:
-    branches: [ "main" ]
+    branches:
+      - main
+      - develop/vNext
   pull_request:
-    branches: [ "main" ]
+    branches:
+      - main
+      - develop/vNext
   schedule:
     - cron: '29 13 * * 2'
 
