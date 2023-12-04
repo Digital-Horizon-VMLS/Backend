@@ -1,8 +1,49 @@
 openapi: 3.1.0
 info:
   title: Anonymous Roulette API
-  version: 0.1.0
+  version: 0.1.1
 paths:
+  /api/tokens:
+    post:
+      summary: Get access/refresh tokens for posted user.
+      tags:
+        - Tokens
+      requestBody:
+        description: Information to identify requesting user.
+        required: true
+        content:
+          application/json:
+            schema:
+              oneOf:
+                - schema:
+                  type: object
+                  title: User ID
+                  properties:
+                    user_id:
+                      type: integer
+                      example: 1
+                  required:
+                    - user_id
+                - schema:
+                  type: object
+                  title: Request Token
+                  properties:
+                    request_token:
+                      type: string
+                      example: eyJhbGc2OiJIUVUxMiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJhbm9uX3JvdWxldHRlIiwiZXhwIjoxNzMyOTE3NDA2LCJpYXQiOjE3MDE0Njc4MDYsImlzcyI6ImFub25fcm91bGV0dGUiLCJqdGkiOiIzN2NlODFlNS0xZGVhLTRlNTAtYTI5MS0wNzZlYzE2NmExZDEiLCJuYmYiOjE3MDE0Njc4MDUsInN1YiI6IjEiLCJ0eXAiOiJyZWZyZXNoIn0.tH3Gwkb4J_X2UQraoAi1PxAmMpadHwgNUyypGdoslXANM9gLPN4KZK92EW4v9O4lqNui182FiV2TjJMqGOz_6w
+                  required:
+                    - request_token
+      responses:
+        '201':
+          description: Sucessfully created tokens.
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/Access Token'
+                  - $ref: '#/components/schemas/Access and Refresh Token'
+        '401':
+          $ref: '#/components/responses/401Unauthenticated'
   /api/categories:
     get:
       summary: Get a list of categories.
@@ -78,6 +119,7 @@ paths:
         - Users
       requestBody:
         description: Username and password for the new user.
+        required: true
         content:
           application/json:
             schema:
@@ -109,6 +151,8 @@ paths:
           type: integer
     get:
       summary: Get a user by their ID.
+      security:
+        - BearerAuth: []
       tags:
         - Users
       responses:
@@ -118,27 +162,27 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/User'
+        '401':
+          $ref: '#/components/responses/401Unauthenticated'
+        '403':
+          $ref: '#/components/responses/403Unauthorized'
     delete:
       summary: Delete a user by their ID.
+      security:
+        - BearerAuth: []
       tags:
         - Users
-      requestBody:
-        description: Password of the user.
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                password:
-                  type: string
-                  example: mypassword
-              required:
-                - password
       responses:
         '204':
           description: Successfuly deleted a user by their ID.
+        '401':
+          $ref: '#/components/responses/401Unauthenticated'
+        '403':
+          $ref: '#/components/responses/403Unauthorized'
     patch:
       summary: Update a user by their ID.
+      security:
+        - BearerAuth: []
       tags:
         - Users
       requestBody:
@@ -173,9 +217,15 @@ paths:
       responses:
         '204':
           description: Successfuly updated a user by their ID.
+        '401':
+          $ref: '#/components/responses/401Unauthenticated'
+        '403':
+          $ref: '#/components/responses/403Unauthorized'
   /api/friends:
     get:
       summary: Get a list of friends.
+      security:
+        - BearerAuth: []
       tags:
         - Friends
       responses:
@@ -197,6 +247,8 @@ paths:
           type: integer
     get:
       summary: Get a friend by their ID.
+      security:
+        - BearerAuth: []
       tags:
         - Friends
       responses:
@@ -208,6 +260,8 @@ paths:
                 $ref: '#/components/schemas/Friend'
     delete:
       summary: Remove a friend by their ID.
+      security:
+        - BearerAuth: []
       tags:
         - Friends
       responses:
@@ -216,6 +270,8 @@ paths:
   /api/friend-requests:
     get:
       summary: Get a list of friend requests.
+      security:
+        - BearerAuth: []
       tags:
         - Friend Requests
       responses:
@@ -229,10 +285,13 @@ paths:
                   $ref: '#/components/schemas/Friend Request'
     post:
       summary: Create a friend request.
+      security:
+        - BearerAuth: []
       tags:
         - Friend Requests
       requestBody:
         description: User ID of the recipient and message for the friend request.
+        required: true
         content:
           application/json:
             schema:
@@ -263,6 +322,8 @@ paths:
           type: integer
     get:
       summary: Get a friend request by their ID.
+      security:
+        - BearerAuth: []
       tags:
         - Friend Requests
       responses:
@@ -274,6 +335,8 @@ paths:
                 $ref: '#/components/schemas/Friend Request'
     patch:
       summary: Update a friend request by their ID.
+      security:
+        - BearerAuth: []
       tags:
         - Friend Requests
       requestBody:
@@ -294,10 +357,13 @@ paths:
   /api/reports:
     post:
       summary: Report a user.
+      security:
+        - BearerAuth: []
       tags:
         - Reports
       requestBody:
         description: User ID of offender and message describing offense.
+        required: true
         content:
           application/json:
             schema:
@@ -422,3 +488,43 @@ components:
           type: string
           format: date
           example: 2023-02-11
+    Access Token:
+      type: object
+      properties:
+        token_type:
+          type: string
+          example: Bearer
+        access_token:
+          type: string
+          example: eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJhbm9uX3JvdWxldHRlIiwiZXhwIjoxNzAxNDY4MTA2LCJpYXQiOjE3MDE0Njc4MDYsImlzcyI6ImFub25fcm91bGV0dGUiLCJqdGkiOiIzMWNhYWE2NS1iNzY0LTRhMmItOTI4MC1mMDJjOTMwNTBkZjciLCJuYmYiOjE3MDE0Njc4MDUsInN1YiI6IjEiLCJ0eXAiOiJhY2Nlc3MifQ.ckOOqsQU393Pp3OYJWyb7I6qhTt3pBVxNdSdchCAk-iXcNx64yvee2UKFFubOXJSwJptwBKWhU_2tbdTE2u4ag
+        access_expires_in:
+          type: integer
+          example: 1601268306
+    Access and Refresh Token:
+      type: object
+      properties:
+        token_type:
+          type: string
+          example: Bearer
+        access_token:
+          type: string
+          example: eyJhbGciOiJIULUxMiIsInRncCI6IkpXVCJ9.eyJhdWQiOiJhbm9uX3JvdWxldHR9IiwiZXhwIjoxNzAxNCY4NzM1LCJpYXQiOjE3MDE0Njg0MzUsImlzcyI6ImFub25fcm91bGV0dGUiLCJqdGkiOiJiODZmMWQ1NC04MDljLTRkYjAtYmRlOC0wNDMxYWRlYzIwNDciLCJuYmYiOjE3MDE0Njg0MzQsInN1YiI6IjEiLCJ0eXAiOiJhY2Nlc3MifQ.8GBI6pudxbXAqE37XFpFYPAEhIUx6gN2UpiMEghBpfDgT5kgSkDavbQWQnVJDKfWVBnjaAxPT2nGdyx4i9xGLw
+        access_expires_in:
+          type: integer
+          example: 1701468735
+        refresh_token:
+          type: string
+          example: eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJhbm9uX3JvdWxldHRlIiwiZXhwIjoxNzMyOTE4MDM1LCJpYXQiOjE3MDE0Njg0MzUsImlzcyI6ImFub25fcm91bGV0dGUiLCJqdGkiOiIyZGUxNWVkNy05NmMzLTQ4ZTQtYTJiNS1mMGU1MjI1NWQxYzgiLCJuYmYiOjE3MDE0Njg0MzQsInN1YiI6IjEiLCJ0eXAiOiJyZWZyZXNoIn7.prA97lyNjJe_LTRhhnPRiUDSoH7laVE9H8f4-xAPrXjzxRf5oyMYm6A-n_uXAi2xX_KlKBNfSsdmg4R92ZeHBA
+        refresh_expires_in:
+          type: integer
+          example: 1732918035
+  responses:
+    401Unauthenticated:
+      description: Cannot identify user of request.
+    403Unauthorized:
+      description: Requesting user does not have permission to access resource.
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
