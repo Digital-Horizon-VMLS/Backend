@@ -1,6 +1,12 @@
-defmodule AnonRouletteWeb.UserController do
-  use AnonRouletteWeb, :controller
+defmodule AnonRouletteWeb.Guardian do
+  @moduledoc """
+  Configuarion for access/refresh tokens.
+  """
+  use Guardian,
+    otp_app: :anon_roulette,
+    token_ttl: %{"access" => {5, :minutes}, "refresh" => {52, :weeks}}
 
+  # TODO: Remove mock data and get resource from database
   @users_mock [
     %{
       id: 1,
@@ -59,79 +65,38 @@ defmodule AnonRouletteWeb.UserController do
     }
   ]
 
-  # TODO: Implement functionality
-  def show(conn, %{"user_id" => id}) do
-    id = String.to_integer(id)
-
-    if authorized?(conn, id) do
-      user =
-        Enum.find(
-          @users_mock,
-          %{
-            id: id,
-            username: "mock",
-            email: "mock@email.com",
-            profile_picture: "https://en.wikipedia.org/static/images/icons/wikipedia.png",
-            description: "Mock",
-            first_name: "Mock",
-            last_name: "Mock",
-            birth_date: ~D[2001-01-01],
-            ethnicity: "Mock",
-            anonymous: true
-          },
-          &(&1.id == id)
-        )
-
-      render(conn, :show, user: user)
-    else
-      send_resp(conn, 403, "")
-    end
+  def subject_for_token(%{id: id}, _claims) do
+    # User ID as subject of token
+    {:ok, to_string(id)}
   end
 
-  # TODO: Implement functionality
-  def create(conn, user_params) do
-    user = %{
-      id: Enum.random(5..10_000),
-      username: Map.get(user_params, "username"),
-      email: Map.get(user_params, "email"),
-      profile_picture: "https://en.wikipedia.org/static/images/icons/wikipedia.png",
-      description: nil,
-      first_name: nil,
-      last_name: nil,
-      birth_date: nil,
-      ethnicity: nil,
-      anonymous: true
-    }
-
-    render(conn, :show, user: user)
+  def subject_for_token(_, _) do
+    {:error, :no_id}
   end
 
-  # TODO: Implement functionality
-  def delete(conn, %{"user_id" => id}) do
-    id = String.to_integer(id)
+  def resource_from_claims(%{"sub" => id}) do
+    resource =
+      Enum.find(
+        @users_mock,
+        %{
+          id: String.to_integer(id),
+          username: "mock",
+          email: "mock@email.com",
+          profile_picture: "https://en.wikipedia.org/static/images/icons/wikipedia.png",
+          description: "Mock",
+          first_name: "Mock",
+          last_name: "Mock",
+          birth_date: ~D[2001-01-01],
+          ethnicity: "Mock",
+          anonymous: true
+        },
+        &(&1.id == String.to_integer(id))
+      )
 
-    if authorized?(conn, id) do
-      conn
-      |> send_resp(204, "")
-    else
-      send_resp(conn, 403, "")
-    end
+    {:ok, resource}
   end
 
-  # TODO: Implement functionality
-  def update(conn, %{"user_id" => id}) do
-    id = String.to_integer(id)
-
-    if authorized?(conn, id) do
-      conn
-      |> send_resp(204, "")
-    else
-      send_resp(conn, 403, "")
-    end
-  end
-
-  defp authorized?(conn, resource_id) do
-    %{:id => token_id} = Guardian.Plug.current_resource(conn)
-    token_id == resource_id
+  def resource_from_claims(_claims) do
+    {:error, :no_subject}
   end
 end
