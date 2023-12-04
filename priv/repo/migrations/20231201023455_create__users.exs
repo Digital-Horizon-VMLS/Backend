@@ -1,4 +1,4 @@
-defmodule ArDatabase.Repo.Migrations.Create_Users do
+defmodule AnonRoulette.Repo.Migrations.Create_Users do
   use Ecto.Migration
 
   def change do
@@ -7,9 +7,9 @@ defmodule ArDatabase.Repo.Migrations.Create_Users do
       add :first_name, :string
       add :last_namem, :string
       add :birth_date, :date
-      add :ethnic_id, #FK
+      add :ethnic_id, references("ethnicities", on_delete: :nothing, type: :integer)
       add :profile_description, :string
-      add :profile_picture_id, #FK
+      add :profile_picture_id, references("profile_pictures", on_delete: :nothing, type: :integer)
 
     end
   end

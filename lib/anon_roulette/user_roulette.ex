@@ -1,8 +1,10 @@
-defmodule AnonRoulette.CategoryRoulette do
+
+defmodule AnonRoulette.UserRoulette do
   use Ecto.Schema
 
   # This defines the database table for the schema
-  schema "categories_roulette" do
+  schema "users_roulette" do
+
 
 
     #timestamps()

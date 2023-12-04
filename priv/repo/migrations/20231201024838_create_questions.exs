@@ -4,7 +4,7 @@ defmodule AnonRoulette.Repo.Migrations.CreateQuestions do
   def change do
     create table(:questions, primary_key: false) do
       add :question_id, :uuid, primary_key: true
-      add :category_id, #FK
+      add :category_id, references("categories", on_delete: :nothing, type: :integer)
       add :question, :string
     end
   end
