@@ -3,10 +3,10 @@ defmodule AnonRoulette.Repo.Migrations.CreateEthnicities do
 
   def change do
     create table(:ethnicities, primary_key: false) do
-      add :ethnic_id, :uuid, primary_key: true
+      add :ethnic_id, :id, primary_key: true
       add :ethnic_name, :string
 
-      #timestamps()
+      # timestamps()
     end
   end
 end

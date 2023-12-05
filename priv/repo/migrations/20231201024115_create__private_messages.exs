@@ -3,9 +3,12 @@ defmodule AnonRoulette.Repo.Migrations.Create_PrivateMessages do
 
   def change do
     create table(:private_messages, primary_key: false) do
-      add :message_id, :uuid, primary_key: true
-      add :from_user, references("users", on_delete: :nothing, type: :integer)
-      add :to_user, references("users", on_delete: :nothing, type: :integer)
+      add :message_id, :id, primary_key: true
+
+      add :from_user_id,
+          references("users", column: :user_id, on_delete: :nothing, type: :integer)
+
+      add :to_user_id, references("users", column: :user_id, on_delete: :nothing, type: :integer)
       add :text_message, :string
       add :sent_date, :string
     end
