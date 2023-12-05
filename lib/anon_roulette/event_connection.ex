@@ -7,10 +7,12 @@ defmodule AnonRoulette.EventConnection do
     field :type, :string
 
     # FK from event table
-    belongs_to :event, AnonRoulette.Event, foreign_key: :event_connection_id
+    belongs_to :event, AnonRoulette.Event,
+      foreign_key: :event_connection_id,
+      references: :event_id
 
     # FK from users table
-    belongs_to :user, AnonRoulette.User, foreign_key: :user_id
+    belongs_to :user, AnonRoulette.User, foreign_key: :user_id, references: :user_id
 
     # timestamps()
   end

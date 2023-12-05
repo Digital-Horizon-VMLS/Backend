@@ -7,9 +7,12 @@ defmodule AnonRoulette.EventMessage do
     field :message, :string
 
     # FK from events table
-    belongs_to :event, AnonRoulette.Event, foreign_key: :event_message_id
+    belongs_to :event, AnonRoulette.Event,
+      foreign_key: :event_message_id,
+      references: :event_id
+
     # FK from users table
-    belongs_to :user, AnonRoulette.User, foreign_key: :sender_id
+    belongs_to :user, AnonRoulette.User, foreign_key: :sender_id, references: :user_id
     # timestamps()
   end
 end

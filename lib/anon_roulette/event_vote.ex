@@ -7,7 +7,7 @@ defmodule AnonRoulette.EventVote do
     field :yes_vote, :boolean
     field :no_vote, :boolean
 
-    belongs_to :event, AnonRoulette.Event, foreign_key: :event_vote_id
+    belongs_to :event, AnonRoulette.Event, foreign_key: :event_vote_id, references: :event_id
     # timestamps()
   end
 end

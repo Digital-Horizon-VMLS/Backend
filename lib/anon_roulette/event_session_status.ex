@@ -6,6 +6,10 @@ defmodule AnonRoulette.EventSessionStatus do
   schema "event_session_status" do
     field :type, :string
 
+    belongs_to :event, AnonRoulette.Event,
+      foreign_key: :event_session_status_id,
+      references: :event_id
+
     # timestamps()
   end
 end

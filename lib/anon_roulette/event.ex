@@ -7,7 +7,9 @@ defmodule AnonRoulette.Event do
     field :timestamp, :integer
 
     # FK from roulette_sessions table
-    belongs_to :session, AnonRoulette.RouletteSession, foreign_key: :roulette_session
+    belongs_to :session, AnonRoulette.RouletteSession,
+      foreign_key: :roulette_session_id,
+      references: :roulette_session_id
 
     # FK for event_messages table
     has_many :event_message, AnonRoulette.EventMessage, foreign_key: :event_message_id

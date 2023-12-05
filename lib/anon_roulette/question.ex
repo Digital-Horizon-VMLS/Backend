@@ -7,7 +7,9 @@ defmodule AnonRoulette.Question do
     field :question, :string
 
     # FK from categories table
-    belongs_to :category, AnonRoulette.Category, foreign_key: :category_id
+    belongs_to :category, AnonRoulette.Category,
+      foreign_key: :category_id,
+      references: :category_id
 
     # timestamps()
   end

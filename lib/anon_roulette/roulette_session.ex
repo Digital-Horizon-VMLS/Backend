@@ -15,7 +15,9 @@ defmodule AnonRoulette.RouletteSession do
       join_keys: [roulette_session_id: :roulette_session_id, category_id: :category_id]
 
     # FK for events table
-    has_many :events, AnonRoulette.Event, foreign_key: :roulette_session_id
+    has_many :events, AnonRoulette.Event,
+      foreign_key: :roulette_session_id,
+      references: :roulette_session_id
 
     # timestamps()
   end

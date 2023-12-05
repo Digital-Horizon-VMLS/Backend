@@ -10,7 +10,7 @@ defmodule AnonRoulette.User do
     field :profile_description, :string
 
     # FK from ethnicity table
-    belongs_to :ethnicity, AnonRoulette.Ethnicity, foreign_key: :ethnic_id
+    belongs_to :ethnicity, AnonRoulette.Ethnicity, foreign_key: :ethnic_id, references: :ethnic_id
 
     # FK from profile_pictures table
     belongs_to :profile_picture, AnonRoulette.ProfilePictures, foreign_key: :profile_picture_id

@@ -3,8 +3,8 @@ defmodule AnonRoulette.UserRoulette do
 
   # This defines the database table for the schema
   schema "users_roulette" do
-    belongs_to :user, AnonRoulette.User
-    belongs_to :session, AnonRoulette.RouletteSession
+    belongs_to :user, AnonRoulette.User, references: :user_id
+    belongs_to :session, AnonRoulette.RouletteSession, references: :roulette_session_id
 
     # timestamps()
   end

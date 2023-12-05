@@ -8,8 +8,8 @@ defmodule AnonRoulette.FriendRequest do
     field :sent_date, :date
 
     # FK from users table
-    belongs_to :from_request, AnonRoulette.User, foreign_key: :requester_id
-    belongs_to :to_request, AnonRoulette.User, foreign_key: :receiver_id
+    belongs_to :from_request, AnonRoulette.User, foreign_key: :requester_id, references: :user_id
+    belongs_to :to_request, AnonRoulette.User, foreign_key: :receiver_id, references: :user_id
 
     # timestamps()
   end
