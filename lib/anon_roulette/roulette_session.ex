@@ -3,7 +3,7 @@ defmodule AnonRoulette.RouletteSession do
 
   # This defines the database table for the schema
   @primary_key {:roulette_session_id, :id, autogenerate: true}
-  schema "roulette_sessions" do
+  schema "roulette_session" do
     # FK and PK for many-to-many users_roulette table
     many_to_many :users, AnonRoulette.User,
       join_through: "users_roulette",

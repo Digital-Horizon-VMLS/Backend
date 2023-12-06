@@ -3,7 +3,7 @@ defmodule AnonRoulette.EventMessage do
 
   # This defines the database table for the schema
   # @primary_key {:event_message_id, :integer, autogenerate: false}
-  schema "event_messages" do
+  schema "event_message" do
     field :message, :string
 
     # FK from events table

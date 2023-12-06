@@ -3,7 +3,7 @@ defmodule AnonRoulette.EventConnection do
 
   # This defines the database table for the schema
   # @primary_key {:event_connection_id, :uuid, autogenerate: false}
-  schema "event_connections" do
+  schema "event_connection" do
     field :type, :string
 
     # FK from event table

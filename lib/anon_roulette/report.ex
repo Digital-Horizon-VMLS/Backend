@@ -3,7 +3,7 @@ defmodule AnonRoulette.Report do
 
   # This defines the database table for the schema
   @primary_key {:report_id, :id, autogenerate: true}
-  schema "reports" do
+  schema "report" do
     field :reason, :string
     field :sent_date, :date
 

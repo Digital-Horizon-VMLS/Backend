@@ -3,7 +3,7 @@ defmodule AnonRoulette.PrivateMessage do
 
   # This defines the database table for the schema
   @primary_key {:message_id, :id, autogenerate: true}
-  schema "private_messages" do
+  schema "private_message" do
     field :text_message, :string
     field :sent_date, :string
 

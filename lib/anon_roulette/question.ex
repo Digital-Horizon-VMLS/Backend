@@ -3,7 +3,7 @@ defmodule AnonRoulette.Question do
 
   # This defines the database table for the schema
   @primary_key {:question_id, :id, autogenerate: true}
-  schema "questions" do
+  schema "question" do
     field :question, :string
 
     # FK from categories table

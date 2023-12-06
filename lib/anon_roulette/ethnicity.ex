@@ -3,7 +3,7 @@ defmodule AnonRoulette.Ethnicity do
 
   # This defines the database table for the schema
   @primary_key {:ethnic_id, :id, autogenerate: true}
-  schema "ethnicities" do
+  schema "ethnicity" do
     field :ethnic_name, :string
     has_many :users, AnonRoulette.User, foreign_key: :ethnic_id
     # timestamps()

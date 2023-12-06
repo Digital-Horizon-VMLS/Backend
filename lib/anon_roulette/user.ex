@@ -3,7 +3,7 @@ defmodule AnonRoulette.User do
 
   # This defines the database table for the schema
   @primary_key {:user_id, :id, autogenerate: true}
-  schema "users" do
+  schema "user" do
     field :first_name, :string
     field :last_name, :integer
     field :birth_date, :date

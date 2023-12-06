@@ -3,7 +3,7 @@ defmodule AnonRoulette.FriendRequest do
 
   # This defines the database table for the schema
   @primary_key {:friend_request_id, :id, autogenerate: true}
-  schema "friend_requests" do
+  schema "friend_request" do
     field :status, :string
     field :sent_date, :date
 

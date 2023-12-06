@@ -3,7 +3,7 @@ defmodule AnonRoulette.Event do
 
   # This defines the database table for the schema
   @primary_key {:event_id, :id, autogenerate: true}
-  schema "events" do
+  schema "event" do
     field :timestamp, :integer
 
     # FK from roulette_sessions table

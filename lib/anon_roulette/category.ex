@@ -3,7 +3,7 @@ defmodule AnonRoulette.Category do
 
   # This defines the database table for the schema
   @primary_key {:category_id, :id, autogenerate: true}
-  schema "categories" do
+  schema "category" do
     field :name, :string
     field :date_added, :date
 

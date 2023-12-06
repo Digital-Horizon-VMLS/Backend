@@ -2,9 +2,9 @@ defmodule AnonRoulette.Repo.Migrations.Create_EventVotes do
   use Ecto.Migration
 
   def change do
-    create table(:event_votes, primary_key: false) do
+    create table(:event_vote, primary_key: false) do
       add :event_vote_id,
-          references("events",
+          references("event",
             column: :event_id,
             on_delete: :nothing,
             type: :integer

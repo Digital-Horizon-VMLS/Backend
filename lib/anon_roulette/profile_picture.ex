@@ -3,7 +3,7 @@ defmodule AnonRoulette.ProfilePicture do
 
   # This defines the database table for the schema
   @primary_key {:profile_picture_id, :id, autogenerate: true}
-  schema "profile_pictures" do
+  schema "profile_picture" do
     field :profile_picture_url, :string
 
     has_many :users, AnonRoulette.User, foreign_key: :profile_picture_id
