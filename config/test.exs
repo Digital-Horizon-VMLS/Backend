@@ -7,9 +7,9 @@ import Config
 # Run `mix help test` for more information.
 config :anon_roulette, AnonRoulette.Repo,
   username: "root",
-  password: "",
+  password: "password",
   hostname: "localhost",
-  database: "anon_roulette_test#{System.get_env("MIX_TEST_PARTITION")}",
+  database: "anonymous_roulette#{System.get_env("MIX_TEST_PARTITION")}",
   pool: Ecto.Adapters.SQL.Sandbox,
   pool_size: 10
 

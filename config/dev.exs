@@ -3,9 +3,9 @@ import Config
 # Configure your database
 config :anon_roulette, AnonRoulette.Repo,
   username: "root",
-  password: "",
+  password: "password",
   hostname: "localhost",
-  database: "anon_roulette_dev",
+  database: "anonymous_roulette",
   stacktrace: true,
   show_sensitive_data_on_connection_error: true,
   pool_size: 10
