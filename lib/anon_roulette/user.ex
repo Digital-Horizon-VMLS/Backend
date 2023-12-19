@@ -7,7 +7,7 @@ defmodule AnonRoulette.User do
     field :username, :string
     field :email, :string, redact: true
     field :first_name, :string
-    field :last_name, :integer
+    field :last_name, :string
     field :birth_date, :date
     field :profile_description, :string
     field :is_active, :boolean
