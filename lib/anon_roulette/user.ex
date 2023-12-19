@@ -4,10 +4,13 @@ defmodule AnonRoulette.User do
   # This defines the database table for the schema
   @primary_key {:user_id, :id, autogenerate: true}
   schema "user" do
+    field :username, :string
+    field :email, :string, redact: true
     field :first_name, :string
     field :last_name, :integer
     field :birth_date, :date
     field :profile_description, :string
+    field :is_active, :boolean
 
     # FK from ethnicity table
     belongs_to :ethnicity, AnonRoulette.Ethnicity, foreign_key: :ethnic_id, references: :ethnic_id
@@ -37,6 +40,7 @@ defmodule AnonRoulette.User do
 
     # FK for event_connections table
     has_many :event_connection, AnonRoulette.EventConnection, foreign_key: :user_id
-    # timestamps()
+
+    timestamps()
   end
 end
