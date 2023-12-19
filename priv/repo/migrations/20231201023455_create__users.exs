@@ -3,7 +3,7 @@ defmodule AnonRoulette.Repo.Migrations.Create_Users do
 
   def change do
     create table(:user, primary_key: false) do
-      add :user_id, :id, primary_key: true
+      add :user_id, :bigserial, primary_key: true
       add :first_name, :string
       add :last_name, :string
       add :birth_date, :date
