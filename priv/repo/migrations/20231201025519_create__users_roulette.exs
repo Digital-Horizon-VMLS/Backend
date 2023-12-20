@@ -3,7 +3,7 @@ defmodule AnonRoulette.Repo.Migrations.Create_UsersRoulette do
 
   def change do
     create table(:user_roulette, primary_key: false) do
-      add :user_id, references("user", column: :user_id, on_delete: :nothing, type: :integer),
+      add :user_id, references("user", column: :user_id, on_delete: :nothing),
         primary_key: true
 
       add :roulette_session_id,
