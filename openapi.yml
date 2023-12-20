@@ -118,7 +118,7 @@ paths:
       tags:
         - Users
       requestBody:
-        description: Username and password for the new user.
+        description: Information of the new user.
         required: true
         content:
           application/json:
@@ -131,6 +131,22 @@ paths:
                 email:
                   type: string
                   example: johndoe@email.com
+                profile_description:
+                  type: string
+                  example: Hey, friends! I'm Johnathan Doeman, your friendly neighborhood enthusiast of all things life has to offer.
+                first_name:
+                  type: string
+                  example: Johnathan
+                last_name:
+                  type: string
+                  example: Doeman
+                birth_date:
+                  type: string
+                  format: date
+                  example: 2002-02-02
+                ethnic_id:
+                  type: integer
+                  example: 2
               required:
                 - username
                 - email
@@ -141,6 +157,26 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/User'
+        '422':
+          $ref: '#/components/responses/422Changeset'
+  /api/users/me:
+    get:
+      summary: Get a user by their access token.
+      security:
+        - BearerAuth: []
+      tags:
+        - Users
+      responses:
+        '200':
+          description: Successfuly retrieved a user by their access token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '401':
+          $ref: '#/components/responses/401Unauthenticated'
+        '403':
+          $ref: '#/components/responses/403Unauthorized'
   /api/users/{user_id}:
     parameters:
       - name: "user_id"
@@ -192,35 +228,38 @@ paths:
             schema:
               type: object
               properties:
-                email:
+                username:
                   type: string
-                  example: johnthenew@update.com
-                description:
+                  example: johnthenew
+                profile_description:
                   type: string
                   example: Hey, friends! I'm Johnathan Doeman, your friendly neighborhood enthusiast of all things life has to offer.
-                firstName:
+                first_name:
                   type: string
                   example: Johnathan
-                lastName:
+                last_name:
                   type: string
                   example: Doeman
-                birthDate:
+                birth_date:
                   type: string
                   format: date
                   example: 2002-02-02
-                ethnicity:
+                ethnic_id:
                   type: integer
                   example: 2
-                anonymous:
-                  type: boolean
-                  example: false
       responses:
-        '204':
+        '200':
           description: Successfuly updated a user by their ID.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
         '401':
           $ref: '#/components/responses/401Unauthenticated'
         '403':
           $ref: '#/components/responses/403Unauthorized'
+        '422':
+          $ref: '#/components/responses/422Changeset'
   /api/friends:
     get:
       summary: Get a list of friends.
@@ -413,28 +452,25 @@ components:
         email:
           type: string
           example: johndoe@email.com
-        profilePicture:
-          type: string
-          example: https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/John_and_Jane_Doe_Headstones.jpg
-        description:
+        profile_picture_id:
+          type: integer
+          example: 38
+        profile_description:
           type: string
           example: Hey there! I'm John, your friendly neighborhood explorer. By day, I'm immersed in the world of technology, and by night, I'm chasing sunsets and new experiences. Music is my therapy, and I believe a good playlist can change your mood in an instant.
-        firstName:
+        first_name:
           type: string
           example: John
-        lastName:
+        last_name:
           type: string
           example: Doe
-        birthDate:
+        birth_date:
           type: string
           format: date
           example: 2000-01-01
-        ethnicity:
-          type: string
-          example: African American
-        anonymous:
-          type: boolean
-          example: true
+        ethnic_id:
+          type: integer
+          example: 2
     Friend:
       type: object
       properties:
@@ -447,25 +483,25 @@ components:
         email:
           type: string
           example: janedoe@email.com
-        profilePicture:
-          type: string
-          example: https://en.wikipedia.org/wiki/Jane_(given_name)#/media/File:Streathamladyjayne.jpg
+        profile_picture_id:
+          type: integer
+          example: 14
         description:
           type: string
           example: Hey, lovely souls! I'm Jane, your friendly neighborhood dreamer with a heart full of wanderlust. By day, you can find me lost in the pages of a good book, and by night, I'm chasing sunsets and stargazing.
-        firstName:
+        first_name:
           type: string
           example: Jane
-        lastName:
+        last_name:
           type: string
           example: Doe
-        birthDate:
+        birth_date:
           type: string
           format: date
           example: 1994-02-03
-        ethnicity:
-          type: string
-          example: Hispanic
+        ethnic_id:
+          type: integer
+          example: 1
     Friend Request:
       type: object
       properties:
@@ -484,7 +520,7 @@ components:
         sender:
           type: integer
           example: 1
-        sentDate:
+        sent_date:
           type: string
           format: date
           example: 2023-02-11
@@ -523,6 +559,8 @@ components:
       description: Cannot identify user of request.
     403Unauthorized:
       description: Requesting user does not have permission to access resource.
+    422Changeset:
+      description: The request body contains invalid fields. See response body for more detail.
   securitySchemes:
     BearerAuth:
       type: http
