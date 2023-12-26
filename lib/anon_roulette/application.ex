@@ -16,6 +16,8 @@ defmodule AnonRoulette.Application do
       {Finch, name: AnonRoulette.Finch},
       # Start a worker by calling: AnonRoulette.Worker.start_link(arg)
       # {AnonRoulette.Worker, arg},
+      AnonRouletteWeb.Presence,
+      AnonRoulette.Scheduler,
       # Start to serve requests, typically the last entry
       AnonRouletteWeb.Endpoint
     ]

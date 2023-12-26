@@ -28,6 +28,9 @@ config :anon_roulette, AnonRouletteWeb.Guardian,
   issuer: "anon_roulette",
   secret_key: ""
 
+# Configures Scheduler
+config :anon_roulette, AnonRoulette.Scheduler, jobs: []
+
 # Configures the mailer
 #
 # By default it uses the "Local" adapter which stores the emails
