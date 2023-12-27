@@ -1,5 +1,6 @@
 defmodule AnonRouletteWeb.CategoriesController do
   use AnonRouletteWeb, :controller
+  alias AnonRoulette.{Repo, Category}
 
   @categories_mock [
     %{
@@ -22,21 +23,22 @@ defmodule AnonRouletteWeb.CategoriesController do
 
   # TODO: Implement functionality
   def index(conn, _params) do
-    render(conn, :index, categories: @categories_mock)
+    category = Repo.all(Category)
+    render(conn, :index, categories: category)
   end
 
   # TODO: Implement functionality
   def show(conn, %{"category_id" => id}) do
-    category =
-      Enum.find(
-        @categories_mock,
-        %{
-          id: String.to_integer(id),
-          name: "Mock"
-        },
-        &(&1.id == String.to_integer(id))
-      )
+    case Repo.get(Category, id) do
+      %Category{} = category ->
+        conn
+        |> put_status(:ok)
+        |> render(:show, category: category)
 
-    render(conn, :show, category: category)
+      nil ->
+        conn
+        |> put_status(:not_found)
+        |> json(%{error: "Category not found"})
+    end
   end
 end

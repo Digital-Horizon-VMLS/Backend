@@ -15,7 +15,7 @@ defmodule AnonRouletteWeb.CategoriesJSON do
 
   defp data(category) do
     %{
-      id: category.id,
+      id: category.category_id,
       name: category.name
     }
   end
