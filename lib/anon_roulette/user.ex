@@ -71,14 +71,6 @@ defmodule AnonRoulette.User do
     |> foreign_key_constraint(:ethnic_id)
   end
 
-  @spec patch_changeset(
-          {map(), map()}
-          | %{
-              :__struct__ => atom() | %{:__changeset__ => map(), optional(any()) => any()},
-              optional(atom()) => any()
-            },
-          :invalid | %{optional(:__struct__) => none(), optional(atom() | binary()) => any()}
-        ) :: Ecto.Changeset.t()
   def patch_changeset(user, attrs) do
     user
     |> cast(attrs, [
