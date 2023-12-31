@@ -11,7 +11,7 @@ defmodule AnonRoulette.Repo.Migrations.Create_EventConnections do
           ),
           primary_key: true
 
-      add :user_id, references("user", column: :user_id, on_delete: :nothing, type: :integer)
+      add :user_id, references("user", column: :user_id, on_delete: :nothing)
       add :type, :string
     end
   end

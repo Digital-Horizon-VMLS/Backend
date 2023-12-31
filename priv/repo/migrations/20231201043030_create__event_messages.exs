@@ -11,7 +11,7 @@ defmodule AnonRoulette.Repo.Migrations.Create_EventMessages do
           ),
           primary_key: true
 
-      add :sender_id, references("user", column: :user_id, on_delete: :nothing, type: :integer)
+      add :sender_id, references("user", column: :user_id, on_delete: :nothing)
       add :message, :string
     end
   end
