@@ -79,9 +79,7 @@ defmodule AnonRoulette.Resources.Tokens do
     end
   end
 
-  @doc """
-  Generate an access token by using a refresh token
-  """
+  # Generate an access token by using a refresh token
   defp generate_access(refresh_token) do
     with {:ok, refresh_token, %{"sub" => user_id} = refresh_claims, token_id} <-
            validate_refresh(refresh_token),
@@ -91,10 +89,8 @@ defmodule AnonRoulette.Resources.Tokens do
     end
   end
 
-  @doc """
-  Generate an refresh token and assigns it to the given user id
-  """
-  defp generate_refresh(user_id, user_agent \\ nil) do
+  # Generate an refresh token and assigns it to the given user id
+  defp generate_refresh(user_id, user_agent) do
     with {:ok, refresh_token, refresh_claims} <-
            Guardian.encode_and_sign(%{id: user_id}, %{}, token_type: :refresh),
          {:ok, _} <-
@@ -105,18 +101,14 @@ defmodule AnonRoulette.Resources.Tokens do
     end
   end
 
-  @doc """
-  Generate refresh and/or access token using the given token.
-  """
-  defp generate_token(type, token, user_agent \\ nil)
-
+  # Generate refresh and/or access token using the given token.
   defp generate_token("refresh", refresh_token, _user_agent) do
     generate_access(refresh_token)
   end
 
   # TODO: Remove before production
   defp generate_token("id", id, user_agent) do
-    with {:ok, refresh_token, refresh_claims} <- generate_refresh(id, user_agent) do
+    with {:ok, refresh_token, _refresh_claims} <- generate_refresh(id, user_agent) do
       generate_access(refresh_token)
     end
   end
