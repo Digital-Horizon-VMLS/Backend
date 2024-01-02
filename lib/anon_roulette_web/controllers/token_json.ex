@@ -28,7 +28,7 @@ defmodule AnonRouletteWeb.TokenJSON do
 
   defp data(token) do
     %{
-      token_id: token.token_id,
+      id: token.token_id,
       user_agent: token.user_agent
     }
   end
