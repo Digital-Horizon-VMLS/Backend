@@ -21,6 +21,9 @@ defmodule AnonRoulette.User do
     # FK from profile_pictures table
     belongs_to :profile_picture, AnonRoulette.ProfilePicture, references: :profile_picture_id
 
+    # FK for token table
+    has_many :token, AnonRoulette.Token, foreign_key: :user_id
+
     # FK for reports table
     has_many :sender_reports, AnonRoulette.Report, foreign_key: :sender_id
     has_many :offender_reports, AnonRoulette.Report, foreign_key: :offender_id
