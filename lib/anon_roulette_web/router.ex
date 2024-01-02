@@ -39,6 +39,12 @@ defmodule AnonRouletteWeb.Router do
     pipe_through :api
     pipe_through AnonRouletteWeb.AuthPipeline
 
+    get "/tokens", TokenController, :index
+    delete "/tokens", TokenController, :delete_all
+    get "/tokens/me", TokenController, :show
+    delete "/tokens/me", TokenController, :delete
+    get "/tokens/:token_id", TokenController, :show
+    delete "/tokens/:token_id", TokenController, :delete
     get "/users/me", UserController, :show
     get "/users/:user_id", UserController, :show
     delete "/users/:user_id", UserController, :delete
