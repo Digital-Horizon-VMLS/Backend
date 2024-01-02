@@ -1,42 +1,26 @@
 defmodule AnonRouletteWeb.EthnicityController do
   use AnonRouletteWeb, :controller
+  alias AnonRoulette.Resources.Ethnicities
+  action_fallback AnonRouletteWeb.ErrorController
 
-  @ethnicities_mock [
-    %{
-      id: 1,
-      name: "African American"
-    },
-    %{
-      id: 2,
-      name: "Asian American"
-    },
-    %{
-      id: 3,
-      name: "Hispanic"
-    },
-    %{
-      id: 4,
-      name: "Caucasian"
-    }
-  ]
-
-  # TODO: Implement functionality
   def index(conn, _params) do
-    render(conn, :index, ethnicities: @ethnicities_mock)
+    ethnicities = Ethnicities.all_ethnicities()
+    render(conn, :index, ethnicities: ethnicities)
   end
 
-  # TODO: Implement functionality
   def show(conn, %{"ethnicity_id" => id}) do
-    ethnicity =
-      Enum.find(
-        @ethnicities_mock,
-        %{
-          id: String.to_integer(id),
-          name: "Mock"
-        },
-        &(&1.id == String.to_integer(id))
-      )
+    case Integer.parse(id) do
+      {number, _} when is_integer(number) ->
+        case Ethnicities.get_ethnicity(number) do
+          {:ok, ethnicity} ->
+            render(conn, :show, ethnicity: ethnicity)
+          
+          {:error, :not_found} ->
+            {:error, :not_found}
+        end
 
-    render(conn, :show, ethnicity: ethnicity)
+      _ ->
+        {:error, :not_found}
+    end
   end
 end

@@ -3,7 +3,7 @@ defmodule AnonRouletteWeb.EthnicityJSON do
   Renders a list of ethnicities.
   """
   def index(%{ethnicities: ethnicities}) do
-    for(ethnicity <- ethnicities, do: data(ethnicity))
+    for ethnicity <- ethnicities, do: data(ethnicity)
   end
 
   @doc """
@@ -12,11 +12,11 @@ defmodule AnonRouletteWeb.EthnicityJSON do
   def show(%{ethnicity: ethnicity}) do
     data(ethnicity)
   end
-
+  
   defp data(ethnicity) do
     %{
-      id: ethnicity.id,
-      name: ethnicity.name
+      id: ethnicity.ethnic_id,
+      name: ethnicity.ethnic_name
     }
   end
 end
