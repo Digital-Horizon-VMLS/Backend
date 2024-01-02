@@ -12,11 +12,7 @@ defmodule AnonRouletteWeb.EthnicityJSON do
   def show(%{ethnicity: ethnicity}) do
     data(ethnicity)
   end
-
-  def render("404.json", _assigns) do
-    %{errors: %{status: "404"}}
-  end
-
+  
   defp data(ethnicity) do
     %{
       id: ethnicity.ethnic_id,
