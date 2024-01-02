@@ -14,7 +14,7 @@ defmodule AnonRouletteWeb.EthnicityJSON do
   end
 
   def render("404.json", _assigns) do
-    %{error: "Ethnicity not found"}
+    %{errors: %{status: "404"}}
   end
 
   defp data(ethnicity) do

@@ -1,6 +1,7 @@
 defmodule AnonRouletteWeb.EthnicityController do
   use AnonRouletteWeb, :controller
   alias AnonRoulette.Resources.Ethnicities
+  action_fallback AnonRouletteWeb.ErrorController
 
   def index(conn, _params) do
     ethnicities = Ethnicities.all_ethnicities()
@@ -15,15 +16,11 @@ defmodule AnonRouletteWeb.EthnicityController do
             render(conn, :show, ethnicity: ethnicity)
           
           {:error, :not_found} ->
-            conn
-            |> put_status(:not_found)
-            |> render(:"404", message: "Ethnicity not found")
+            {:error, :not_found}
         end
 
       _ ->
-        conn
-        |> put_status(:not_found)
-        |> render(:"404", message: "Invalid ethnicity ID")
+        {:error, :not_found}
     end
   end
 end
