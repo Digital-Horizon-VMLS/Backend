@@ -28,4 +28,11 @@ defmodule AnonRouletteWeb.ErrorController do
     |> put_view(json: AnonRouletteWeb.ErrorJSON)
     |> render(:"403")
   end
+
+  def call(conn, {:error, :unauthenticated}) do
+    conn
+    |> put_status(401)
+    |> put_view(json: AnonRouletteWeb.ErrorJSON)
+    |> render(:"401")
+  end
 end
