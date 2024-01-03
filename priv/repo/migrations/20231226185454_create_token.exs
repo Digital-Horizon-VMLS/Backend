@@ -4,7 +4,7 @@ defmodule AnonRoulette.Repo.Migrations.CreateToken do
   def change do
     create table(:token, primary_key: false) do
       add :token_id, :bigserial, primary_key: true
-      add :token, :text, null: false
+      add :token, :string, size: 766, null: false
       add :user_agent, :string
 
       add :user_id,
