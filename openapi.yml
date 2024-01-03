@@ -4,8 +4,25 @@ info:
   version: 0.1.1
 paths:
   /api/tokens:
+    get:
+      summary: Get all valid refresh tokens (logins) for the requesting user.
+      security:
+        - BearerAuth: []
+      tags:
+        - Tokens
+      responses:
+        '200':
+          description: Successfuly retrieved a list of categories.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Token'
+        '401':
+          $ref: '#/components/responses/401Unauthenticated'
     post:
-      summary: Get access/refresh tokens for posted user.
+      summary: Create access/refresh tokens for posted user.
       tags:
         - Tokens
       requestBody:
@@ -14,36 +31,115 @@ paths:
         content:
           application/json:
             schema:
-              oneOf:
-                - schema:
-                  type: object
-                  title: User ID
-                  properties:
-                    user_id:
-                      type: integer
-                      example: 1
-                  required:
-                    - user_id
-                - schema:
-                  type: object
-                  title: Request Token
-                  properties:
-                    request_token:
-                      type: string
-                      example: eyJhbGc2OiJIUVUxMiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJhbm9uX3JvdWxldHRlIiwiZXhwIjoxNzMyOTE3NDA2LCJpYXQiOjE3MDE0Njc4MDYsImlzcyI6ImFub25fcm91bGV0dGUiLCJqdGkiOiIzN2NlODFlNS0xZGVhLTRlNTAtYTI5MS0wNzZlYzE2NmExZDEiLCJuYmYiOjE3MDE0Njc4MDUsInN1YiI6IjEiLCJ0eXAiOiJyZWZyZXNoIn0.tH3Gwkb4J_X2UQraoAi1PxAmMpadHwgNUyypGdoslXANM9gLPN4KZK92EW4v9O4lqNui182FiV2TjJMqGOz_6w
-                  required:
-                    - request_token
+              type: object
+              title: Token and type
+              properties:
+                token:
+                  type: string
+                  example: "eyJhbGc2OiJIUVUxMiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJhbm9uX3JvdWxldHRlIiwiZXhwIjoxNzMyOTE3NDA2LCJpYXQiOjE3MDE0Njc4MDYsImlzcyI6ImFub25fcm91bGV0dGUiLCJqdGkiOiIzN2NlODFlNS0xZGVhLTRlNTAtYTI5MS0wNzZlYzE2NmExZDEiLCJuYmYiOjE3MDE0Njc4MDUsInN1YiI6IjEiLCJ0eXAiOiJyZWZyZXNoIn0.tH3Gwkb4J_X2UQraoAi1PxAmMpadHwgNUyypGdoslXANM9gLPN4KZK92EW4v9O4lqNui182FiV2TjJMqGOz_6w"
+                type:
+                  type: string
+                  enum: [id, refresh, google]
+                  example: "refresh"
+              required:
+                - token
+                - type
       responses:
         '201':
           description: Sucessfully created tokens.
           content:
             application/json:
               schema:
-                oneOf:
-                  - $ref: '#/components/schemas/Access Token'
-                  - $ref: '#/components/schemas/Access and Refresh Token'
+                type: object
+                $ref: '#/components/schemas/Access and Refresh Token'
         '401':
           $ref: '#/components/responses/401Unauthenticated'
+        '422':
+          $ref: '#/components/responses/422InvalidType'
+    delete:
+      summary: Delete all refresh tokens (logins) for the requesting user.
+      security:
+        - BearerAuth: []
+      tags:
+        - Tokens
+      responses:
+        '204':
+          description: Successfuly deleted all refresh tokens for requesting user.
+        '401':
+          $ref: '#/components/responses/401Unauthenticated'
+  /api/tokens/me:
+    get:
+      summary: Get the refresh token that generated the current access token.
+      security:
+        - BearerAuth: []
+      tags:
+        - Tokens
+      responses:
+        '200':
+          description: Successfuly retrieved a token by their access token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Token'
+        '401':
+          $ref: '#/components/responses/401Unauthenticated'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+    delete:
+      summary: Delete the refresh token that generated the current access token.
+      security:
+        - BearerAuth: []
+      tags:
+        - Tokens
+      responses:
+        '204':
+          description: Successfuly deleted a token by their access token.
+        '401':
+          $ref: '#/components/responses/401Unauthenticated'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+  /api/tokens/{token_id}:
+    parameters:
+      - name: "token_id"
+        in: path
+        required: true
+        description: ID of the token.
+        schema:
+          type: integer
+    get:
+      summary: Get a token by their ID.
+      security:
+        - BearerAuth: []
+      tags:
+        - Tokens
+      responses:
+        '200':
+          description: Successfuly retrieved a token by their ID.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Token'
+        '401':
+          $ref: '#/components/responses/401Unauthenticated'
+        '403':
+          $ref: '#/components/responses/403Unauthorized'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+    delete:
+      summary: Delete a token by their ID.
+      security:
+        - BearerAuth: []
+      tags:
+        - Tokens
+      responses:
+        '204':
+          description: Successfuly deleted a token by their ID.
+        '401':
+          $ref: '#/components/responses/401Unauthenticated'
+        '403':
+          $ref: '#/components/responses/403Unauthorized'
+        '404':
+          $ref: '#/components/responses/404NotFound'
   /api/categories:
     get:
       summary: Get a list of categories.
@@ -440,6 +536,15 @@ components:
         name:
           type: string
           example: African American
+    Token:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        user_agent:
+          type: string
+          example: "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:47.0) Gecko/20100101 Firefox/47.0"
     User:
       type: object
       properties:
@@ -559,6 +664,10 @@ components:
       description: Cannot identify user of request.
     403Unauthorized:
       description: Requesting user does not have permission to access resource.
+    404NotFound:
+      description: The requested resource was not found.
+    422InvalidType:
+      description: The request body contains invalid token type. See documentation for valid token types.
     422Changeset:
       description: The request body contains invalid fields. See response body for more detail.
   securitySchemes:

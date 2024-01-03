@@ -16,7 +16,7 @@ defmodule AnonRouletteWeb.UserController do
 
   # /users/me
   def show(conn, _) do
-    with %{:id => token_id} <- Guardian.Plug.current_resource(conn),
+    with %{:user_id => token_id} <- Guardian.Plug.current_resource(conn),
          {:ok, user} <- Users.get_user(token_id) do
       render(conn, :show, user: user)
     end
@@ -47,7 +47,7 @@ defmodule AnonRouletteWeb.UserController do
   end
 
   defp authorized?(conn, resource_id) do
-    with %{:id => token_id} <- Guardian.Plug.current_resource(conn) do
+    with %{:user_id => token_id} <- Guardian.Plug.current_resource(conn) do
       if token_id == resource_id do
         :ok
       else
