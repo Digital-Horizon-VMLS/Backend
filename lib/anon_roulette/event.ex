@@ -1,6 +1,6 @@
 defmodule AnonRoulette.Event do
   use Ecto.Schema
-
+  import Ecto.Changeset
   # This defines the database table for the schema
   @primary_key {:event_id, :id, autogenerate: true}
   schema "event" do
@@ -22,6 +22,14 @@ defmodule AnonRoulette.Event do
     # FK for event_votes table
     has_many :event_vote, AnonRoulette.EventVote, foreign_key: :event_vote_id
 
-    # timestamps()
+    timestamps()
+  end
+
+  # This defines changeset functions for creating and updating data
+  def changeset(event, attrs) do
+    event
+    |> cast(attrs, [:roulette_session_id, :timestamp])
+    |> validate_required([:roulette_session_id, :timestamp])
+    |> foreign_key_constraint(:roulette_session_id)
   end
 end

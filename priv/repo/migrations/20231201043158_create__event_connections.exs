@@ -6,13 +6,13 @@ defmodule AnonRoulette.Repo.Migrations.Create_EventConnections do
       add :event_connection_id,
           references("event",
             column: :event_id,
-            on_delete: :nothing,
-            type: :integer
+            on_delete: :delete_all
           ),
           primary_key: true
 
-      add :user_id, references("user", column: :user_id, on_delete: :nothing)
+      add :user_id, references("user", column: :user_id, on_delete: :nilify_all)
       add :type, :string
+      timestamps()
     end
   end
 end

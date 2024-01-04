@@ -13,13 +13,12 @@ defmodule AnonRoulette.Repo.Migrations.Create_Users do
       add :is_active, :boolean, default: true, null: false
 
       add :ethnic_id,
-          references("ethnicity", column: :ethnic_id, on_delete: :nilify_all, type: :id)
+          references("ethnicity", column: :ethnic_id, on_delete: :nilify_all)
 
       add :profile_picture_id,
           references("profile_picture",
             column: :profile_picture_id,
-            on_delete: :nilify_all,
-            type: :id
+            on_delete: :nilify_all
           )
 
       timestamps()

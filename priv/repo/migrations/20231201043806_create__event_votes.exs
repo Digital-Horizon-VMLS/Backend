@@ -6,13 +6,13 @@ defmodule AnonRoulette.Repo.Migrations.Create_EventVotes do
       add :event_vote_id,
           references("event",
             column: :event_id,
-            on_delete: :nothing,
-            type: :integer
+            on_delete: :delete_all
           ),
           primary_key: true
 
       add :yes_vote, :boolean
       add :no_vote, :boolean
+      timestamps()
     end
   end
 end
