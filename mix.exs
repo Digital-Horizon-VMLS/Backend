@@ -54,7 +54,8 @@ defmodule AnonRoulette.MixProject do
       {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
       {:sobelow, "~> 0.13", only: [:dev, :test], runtime: false},
       {:guardian, "~> 2.0"},
-      {:quantum, "~> 3.0"},
+      {:guardian_phoenix, "~> 2.0"},
+      {:quantum, "~> 3.0"}
     ]
   end
 
