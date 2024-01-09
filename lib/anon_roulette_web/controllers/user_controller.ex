@@ -16,7 +16,7 @@ defmodule AnonRouletteWeb.UserController do
 
   # api/users/me
   def show(conn, _) do
-    with %{:user_id => user_id} <- Guardian.Plug.current_resource(conn),
+    with %{"sub" => user_id} <- Guardian.Plug.current_claims(conn),
          {:ok, user} <- Users.get_user_by_id(user_id) do
       render(conn, :show, user: user)
     end
@@ -39,7 +39,7 @@ defmodule AnonRouletteWeb.UserController do
 
   # api/users/me
   def delete(conn, _) do
-    with %{:user_id => user_id} <- Guardian.Plug.current_resource(conn),
+    with %{"sub" => user_id} <- Guardian.Plug.current_claims(conn),
          {:ok, _user} <- Users.deactivate_user(user_id) do
       send_resp(conn, 204, "")
     end
@@ -56,14 +56,14 @@ defmodule AnonRouletteWeb.UserController do
 
   # api/users/me
   def update(conn, user_params) do
-    with %{:user_id => user_id} <- Guardian.Plug.current_resource(conn),
+    with %{"sub" => user_id} <- Guardian.Plug.current_claims(conn),
          {:ok, user} <- Users.update_user(user_id, user_params) do
       render(conn, :show, user: user)
     end
   end
 
   defp authorized?(conn, resource_id) do
-    with %{:user_id => requesting_id} <- Guardian.Plug.current_resource(conn) do
+    with %{"sub" => requesting_id} <- Guardian.Plug.current_claims(conn) do
       if requesting_id == resource_id do
         :ok
       else
