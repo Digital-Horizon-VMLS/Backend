@@ -15,6 +15,13 @@ defmodule AnonRouletteWeb.ErrorController do
     |> render(:"404")
   end
 
+  def call(conn, {:error, :invalid_id}) do
+    conn
+    |> put_status(:not_found)
+    |> put_view(json: AnonRouletteWeb.ErrorJSON)
+    |> render(:"404")
+  end
+
   def call(conn, {:error, :not_active}) do
     conn
     |> put_status(403)
