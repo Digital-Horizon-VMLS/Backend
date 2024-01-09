@@ -8,9 +8,9 @@ defmodule AnonRouletteWeb.Guardian do
 
   alias AnonRoulette.Resources.Users
 
-  def subject_for_token(%{id: id}, _claims) do
+  def subject_for_token(%{user_id: user_id}, _claims) when is_integer(user_id) do
     # User ID as subject of token
-    {:ok, to_string(id)}
+    {:ok, user_id}
   end
 
   def subject_for_token(_, _) do

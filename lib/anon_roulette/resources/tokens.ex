@@ -84,7 +84,7 @@ defmodule AnonRoulette.Resources.Tokens do
     with {:ok, refresh_token, %{"sub" => user_id} = refresh_claims, token_id} <-
            validate_refresh(refresh_token),
          {:ok, access_token, access_claims} <-
-           Guardian.encode_and_sign(%{id: user_id}, %{tid: token_id}, token_type: :access) do
+           Guardian.encode_and_sign(%{user_id: user_id}, %{tid: token_id}, token_type: :access) do
       {:ok, %{refresh: {refresh_token, refresh_claims}, access: {access_token, access_claims}}}
     end
   end
@@ -92,7 +92,7 @@ defmodule AnonRoulette.Resources.Tokens do
   # Generate an refresh token and assigns it to the given user id
   defp generate_refresh(user_id, user_agent) do
     with {:ok, refresh_token, refresh_claims} <-
-           Guardian.encode_and_sign(%{id: user_id}, %{}, token_type: :refresh),
+           Guardian.encode_and_sign(%{user_id: user_id}, %{}, token_type: :refresh),
          {:ok, _} <-
            %Token{}
            |> Token.changeset(%{token: refresh_token, user_id: user_id, user_agent: user_agent})
