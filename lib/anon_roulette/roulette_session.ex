@@ -19,7 +19,7 @@ defmodule AnonRoulette.RouletteSession do
       foreign_key: :roulette_session_id,
       references: :roulette_session_id
 
-    # timestamps()
+    timestamps()
   end
 
   # This defines changeset functions for creating and updating data
