@@ -8,8 +8,7 @@ defmodule AnonRouletteWeb.UserController do
   def show(conn, %{"user_id" => id}) do
     id = String.to_integer(id)
 
-    with :ok <- authorized?(conn, id),
-         {:ok, user} <- Users.get_user(id) do
+         {:ok, user} <- Users.get_user_by_id(user_id) do
       render(conn, :show, user: user)
     end
   end
@@ -17,7 +16,7 @@ defmodule AnonRouletteWeb.UserController do
   # /users/me
   def show(conn, _) do
     with %{:user_id => token_id} <- Guardian.Plug.current_resource(conn),
-         {:ok, user} <- Users.get_user(token_id) do
+         {:ok, user} <- Users.get_user_by_id(user_id) do
       render(conn, :show, user: user)
     end
   end

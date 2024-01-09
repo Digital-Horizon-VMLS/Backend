@@ -17,8 +17,8 @@ defmodule AnonRouletteWeb.Guardian do
     {:error, :no_id}
   end
 
-  def resource_from_claims(%{"sub" => id}) do
-    Users.get_user(String.to_integer(id))
+  def resource_from_claims(%{"sub" => user_id}) do
+    Users.get_user_by_id(user_id)
   end
 
   def resource_from_claims(_claims) do

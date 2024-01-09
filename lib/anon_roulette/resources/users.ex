@@ -8,7 +8,7 @@ defmodule AnonRoulette.Resources.Users do
   @doc """
   Get user using either id or email
   """
-  def get_user(id) when is_integer(id) do
+  def get_user_by_id(id) when is_integer(id) do
     case Repo.get(User, id) do
       nil -> {:error, :not_found}
       %{is_active: false} -> {:error, :not_active}
@@ -16,7 +16,7 @@ defmodule AnonRoulette.Resources.Users do
     end
   end
 
-  def get_user(email) when is_bitstring(email) do
+  def get_user_by_email(email) when is_bitstring(email) do
     case Repo.get_by(User, email: email) do
       nil -> {:error, :not_found}
       %{data: %{is_active: false}} -> {:error, :not_active}
@@ -52,8 +52,8 @@ defmodule AnonRoulette.Resources.Users do
         profile_description: "I have no last name"
     }
   """
-  def update_user(id, attrs) when is_integer(id) do
-    with {:ok, user} <- get_user(id) do
+  def update_user(id, attrs) do
+    with {:ok, user} <- get_user_by_id(id) do
       user
       |> User.patch_changeset(attrs)
       |> Repo.update()
@@ -63,8 +63,8 @@ defmodule AnonRoulette.Resources.Users do
   @doc """
   Deactivates the user with the matching id
   """
-  def deactivate_user(id) when is_integer(id) do
-    with {:ok, user} <- get_user(id) do
+  def deactivate_user(id) do
+    with {:ok, user} <- get_user_by_id(id) do
       user
       |> User.delete_changeset()
       |> Repo.update()
