@@ -12,7 +12,7 @@ paths:
         - Tokens
       responses:
         '200':
-          description: Successfuly retrieved a list of categories.
+          description: Successfuly retrieved a list of refresh tokens.
           content:
             application/json:
               schema:
@@ -84,7 +84,7 @@ paths:
         '401':
           $ref: '#/components/responses/401Unauthenticated'
         '404':
-          $ref: '#/components/responses/404NotFound'
+          description: The refresh token that generated the access token no longer exists.
     delete:
       summary: Delete the refresh token that generated the current access token.
       security:
@@ -97,7 +97,7 @@ paths:
         '401':
           $ref: '#/components/responses/401Unauthenticated'
         '404':
-          $ref: '#/components/responses/404NotFound'
+          description: The refresh token that generated the access token is already deleted.
   /api/tokens/{token_id}:
     parameters:
       - name: "token_id"
@@ -121,10 +121,8 @@ paths:
                 $ref: '#/components/schemas/Token'
         '401':
           $ref: '#/components/responses/401Unauthenticated'
-        '403':
-          $ref: '#/components/responses/403Unauthorized'
         '404':
-          $ref: '#/components/responses/404NotFound'
+          $ref: '#/components/responses/404NotFoundAuth'
     delete:
       summary: Delete a token by their ID.
       security:
@@ -136,10 +134,8 @@ paths:
           description: Successfuly deleted a token by their ID.
         '401':
           $ref: '#/components/responses/401Unauthenticated'
-        '403':
-          $ref: '#/components/responses/403Unauthorized'
         '404':
-          $ref: '#/components/responses/404NotFound'
+          $ref: '#/components/responses/404NotFoundAuth'
   /api/categories:
     get:
       summary: Get a list of categories.
@@ -174,6 +170,8 @@ paths:
               schema:
                 type: object
                 $ref: '#/components/schemas/Category'
+        '404':
+          $ref: '#/components/responses/404NotFound'
   /api/ethnicities:
     get:
       summary: Get a list of ethnicities.
@@ -208,6 +206,8 @@ paths:
               schema:
                 type: object
                 $ref: '#/components/schemas/Ethnicity'
+        '404':
+          $ref: '#/components/responses/404NotFound'
   /api/users:
     post:
       summary: Create a user.
@@ -271,6 +271,8 @@ paths:
                 $ref: '#/components/schemas/User'
         '401':
           $ref: '#/components/responses/401Unauthenticated'
+        '404':
+          description: The user corresponding to the access token no longer exists.
     delete:
       summary: Delete a user by their access token.
       security:
@@ -282,6 +284,8 @@ paths:
           description: Successfuly deleted a user by their access token.
         '401':
           $ref: '#/components/responses/401Unauthenticated'
+        '404':
+          description: The user corresponding to the access token no longer exists.
     patch:
       summary: Update a user by their access token.
       security:
@@ -323,6 +327,8 @@ paths:
                 $ref: '#/components/schemas/User'
         '401':
           $ref: '#/components/responses/401Unauthenticated'
+        '404':
+          description: The user corresponding to the access token no longer exists.
         '422':
           $ref: '#/components/responses/422Changeset'
   /api/users/{user_id}:
@@ -348,8 +354,8 @@ paths:
                 $ref: '#/components/schemas/User'
         '401':
           $ref: '#/components/responses/401Unauthenticated'
-        '403':
-          $ref: '#/components/responses/403Unauthorized'
+        '404':
+          $ref: '#/components/responses/404NotFoundAuth'
     delete:
       summary: Delete a user by their ID.
       security:
@@ -361,8 +367,8 @@ paths:
           description: Successfuly deleted a user by their ID.
         '401':
           $ref: '#/components/responses/401Unauthenticated'
-        '403':
-          $ref: '#/components/responses/403Unauthorized'
+        '404':
+          $ref: '#/components/responses/404NotFoundAuth'
     patch:
       summary: Update a user by their ID.
       security:
@@ -404,8 +410,8 @@ paths:
                 $ref: '#/components/schemas/User'
         '401':
           $ref: '#/components/responses/401Unauthenticated'
-        '403':
-          $ref: '#/components/responses/403Unauthorized'
+        '404':
+          $ref: '#/components/responses/404NotFoundAuth'
         '422':
           $ref: '#/components/responses/422Changeset'
   /api/friends:
@@ -714,8 +720,8 @@ components:
   responses:
     401Unauthenticated:
       description: Cannot identify user of request.
-    403Unauthorized:
-      description: Requesting user does not have permission to access resource.
+    404NotFoundAuth:
+      description: The requested resource was not found or the requester does not have authority to perform the requested action on the resource.
     404NotFound:
       description: The requested resource was not found.
     422InvalidType:
