@@ -1,6 +1,8 @@
 defmodule AnonRouletteWeb.EthnicityController do
   use AnonRouletteWeb, :controller
   alias AnonRoulette.Resources.Ethnicities
+  alias AnonRouletteWeb.Utils
+
   action_fallback AnonRouletteWeb.ErrorController
 
   def index(conn, _params) do
@@ -8,19 +10,10 @@ defmodule AnonRouletteWeb.EthnicityController do
     render(conn, :index, ethnicities: ethnicities)
   end
 
-  def show(conn, %{"ethnicity_id" => id}) do
-    case Integer.parse(id) do
-      {number, _} when is_integer(number) ->
-        case Ethnicities.get_ethnicity(number) do
-          {:ok, ethnicity} ->
-            render(conn, :show, ethnicity: ethnicity)
-          
-          {:error, :not_found} ->
-            {:error, :not_found}
-        end
-
-      _ ->
-        {:error, :not_found}
+  def show(conn, %{"ethnicity_id" => ethnicity_id}) do
+    with {:ok, ethnicity_id} <- Utils.parse_id(ethnicity_id),
+         {:ok, ethnicity} <- Ethnicities.get_ethnicity(ethnicity_id) do
+      render(conn, :show, ethnicity: ethnicity)
     end
   end
 end
