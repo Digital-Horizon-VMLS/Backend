@@ -4,6 +4,7 @@ defmodule AnonRoulette.Resources.Tokens do
   represents refresh tokens (logins).
   """
   alias AnonRoulette.Token
+  alias AnonRoulette.Resources.Users
   alias AnonRoulette.Repo
   alias AnonRouletteWeb.Guardian
   import Ecto.Query, only: [from: 2]
@@ -107,8 +108,9 @@ defmodule AnonRoulette.Resources.Tokens do
   end
 
   # TODO: Remove before production
-  defp generate_token("id", id, user_agent) do
-    with {:ok, refresh_token, _refresh_claims} <- generate_refresh(id, user_agent) do
+  defp generate_token("id", user_id, user_agent) do
+    with {:ok, _user} <- Users.get_user_by_id(user_id),
+         {:ok, refresh_token, _refresh_claims} <- generate_refresh(user_id, user_agent) do
       generate_access(refresh_token)
     end
   end
