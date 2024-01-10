@@ -7,7 +7,7 @@ defmodule AnonRoulette.Resources.Users do
   alias AnonRoulette.Resources.Tokens
 
   @doc """
-  Get user using either id or email
+  Get user by id
   """
   def get_user_by_id(id) when is_integer(id) do
     case Repo.get(User, id) do
@@ -17,10 +17,24 @@ defmodule AnonRoulette.Resources.Users do
     end
   end
 
+  @doc """
+  Get user by email
+  """
   def get_user_by_email(email) when is_bitstring(email) do
     case Repo.get_by(User, email: email) do
       nil -> {:error, :not_found}
-      %{data: %{is_active: false}} -> {:error, :not_active}
+      %{is_active: false} -> {:error, :not_active}
+      user = %{} -> {:ok, user}
+    end
+  end
+
+  @doc """
+  Get user by username
+  """
+  def get_user_by_username(username) when is_bitstring(username) do
+    case Repo.get_by(User, username: username) do
+      nil -> {:error, :not_found}
+      %{is_active: false} -> {:error, :not_active}
       user = %{} -> {:ok, user}
     end
   end

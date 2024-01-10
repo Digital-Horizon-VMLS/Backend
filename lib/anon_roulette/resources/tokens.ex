@@ -115,6 +115,22 @@ defmodule AnonRoulette.Resources.Tokens do
     end
   end
 
+  # TODO: Remove before production
+  defp generate_token("email", email, user_agent) do
+    with {:ok, %{user_id: user_id}} <- Users.get_user_by_email(email),
+         {:ok, refresh_token, _refresh_claims} <- generate_refresh(user_id, user_agent) do
+      generate_access(refresh_token)
+    end
+  end
+
+  # TODO: Remove before production
+  defp generate_token("username", username, user_agent) do
+    with {:ok, %{user_id: user_id}} <- Users.get_user_by_username(username),
+         {:ok, refresh_token, _refresh_claims} <- generate_refresh(user_id, user_agent) do
+      generate_access(refresh_token)
+    end
+  end
+
   defp generate_token(_type, _token, _user_agent) do
     {:error, :invalid_token_type}
   end
