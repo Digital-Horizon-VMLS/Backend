@@ -1,23 +1,23 @@
 defmodule AnonRouletteWeb.UserController do
   use AnonRouletteWeb, :controller
   alias AnonRoulette.Resources.Users
+  alias AnonRouletteWeb.Utils
 
   action_fallback AnonRouletteWeb.ErrorController
 
-  # /users/:user_id
-  def show(conn, %{"user_id" => id}) do
-    id = String.to_integer(id)
-
-    with :ok <- authorized?(conn, id),
-         {:ok, user} <- Users.get_user(id) do
+  # api/users/:user_id
+  def show(conn, %{"user_id" => user_id}) do
+    with {:ok, user_id} <- Utils.parse_id(user_id),
+         :ok <- authorized?(conn, user_id),
+         {:ok, user} <- Users.get_user_by_id(user_id) do
       render(conn, :show, user: user)
     end
   end
 
-  # /users/me
+  # api/users/me
   def show(conn, _) do
-    with %{:user_id => token_id} <- Guardian.Plug.current_resource(conn),
-         {:ok, user} <- Users.get_user(token_id) do
+    with %{:user_id => user_id} <- Guardian.Plug.current_resource(conn),
+         {:ok, user} <- Users.get_user_by_id(user_id) do
       render(conn, :show, user: user)
     end
   end
@@ -28,27 +28,43 @@ defmodule AnonRouletteWeb.UserController do
     end
   end
 
-  def delete(conn, %{"user_id" => id}) do
-    id = String.to_integer(id)
-
-    with :ok <- authorized?(conn, id),
-         {:ok, _user} <- Users.deactivate_user(id) do
+  # /users/:user_id
+  def delete(conn, %{"user_id" => user_id}) do
+    with {:ok, user_id} <- Utils.parse_id(user_id),
+         :ok <- authorized?(conn, user_id),
+         {:ok, _user} <- Users.deactivate_user(user_id) do
       send_resp(conn, 204, "")
     end
   end
 
-  def update(conn, %{"user_id" => id} = user_params) do
-    id = String.to_integer(id)
+  # api/users/me
+  def delete(conn, _) do
+    with %{:user_id => user_id} <- Guardian.Plug.current_resource(conn),
+         {:ok, _user} <- Users.deactivate_user(user_id) do
+      send_resp(conn, 204, "")
+    end
+  end
 
-    with :ok <- authorized?(conn, id),
-         {:ok, user} <- Users.update_user(id, user_params) do
+  # api/users/:user_id
+  def update(conn, %{"user_id" => user_id} = user_params) do
+    with {:ok, user_id} <- Utils.parse_id(user_id),
+         :ok <- authorized?(conn, user_id),
+         {:ok, user} <- Users.update_user(user_id, user_params) do
+      render(conn, :show, user: user)
+    end
+  end
+
+  # api/users/me
+  def update(conn, user_params) do
+    with %{:user_id => user_id} <- Guardian.Plug.current_resource(conn),
+         {:ok, user} <- Users.update_user(user_id, user_params) do
       render(conn, :show, user: user)
     end
   end
 
   defp authorized?(conn, resource_id) do
-    with %{:user_id => token_id} <- Guardian.Plug.current_resource(conn) do
-      if token_id == resource_id do
+    with %{:user_id => requesting_id} <- Guardian.Plug.current_resource(conn) do
+      if requesting_id == resource_id do
         :ok
       else
         {:error, :unauthorized}

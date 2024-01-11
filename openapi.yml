@@ -271,8 +271,60 @@ paths:
                 $ref: '#/components/schemas/User'
         '401':
           $ref: '#/components/responses/401Unauthenticated'
-        '403':
-          $ref: '#/components/responses/403Unauthorized'
+    delete:
+      summary: Delete a user by their access token.
+      security:
+        - BearerAuth: []
+      tags:
+        - Users
+      responses:
+        '204':
+          description: Successfuly deleted a user by their access token.
+        '401':
+          $ref: '#/components/responses/401Unauthenticated'
+    patch:
+      summary: Update a user by their access token.
+      security:
+        - BearerAuth: []
+      tags:
+        - Users
+      requestBody:
+        description: User information to update.
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  example: johnthenew
+                profile_description:
+                  type: string
+                  example: Hey, friends! I'm Johnathan Doeman, your friendly neighborhood enthusiast of all things life has to offer.
+                first_name:
+                  type: string
+                  example: Johnathan
+                last_name:
+                  type: string
+                  example: Doeman
+                birth_date:
+                  type: string
+                  format: date
+                  example: 2002-02-02
+                ethnic_id:
+                  type: integer
+                  example: 2
+      responses:
+        '200':
+          description: Successfuly updated a user by their access token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '401':
+          $ref: '#/components/responses/401Unauthenticated'
+        '422':
+          $ref: '#/components/responses/422Changeset'
   /api/users/{user_id}:
     parameters:
       - name: "user_id"

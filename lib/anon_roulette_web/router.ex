@@ -46,6 +46,8 @@ defmodule AnonRouletteWeb.Router do
     get "/tokens/:token_id", TokenController, :show
     delete "/tokens/:token_id", TokenController, :delete
     get "/users/me", UserController, :show
+    delete "/users/me", UserController, :delete
+    patch "/users/me", UserController, :update
     get "/users/:user_id", UserController, :show
     delete "/users/:user_id", UserController, :delete
     patch "/users/:user_id", UserController, :update
