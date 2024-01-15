@@ -14,5 +14,4 @@ defmodule AnonRouletteWeb.AuthPipeline do
   plug Guardian.Plug.VerifySession, claims: @claims
   plug Guardian.Plug.VerifyHeader, claims: @claims, scheme: "Bearer"
   plug Guardian.Plug.EnsureAuthenticated
-  plug Guardian.Plug.LoadResource
 end
