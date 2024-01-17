@@ -4,9 +4,10 @@ defmodule AnonRoulette.Resources.Users do
   """
   alias AnonRoulette.User
   alias AnonRoulette.Repo
+  alias AnonRoulette.Resources.Tokens
 
   @doc """
-  Get user using either id or email
+  Get user by id
   """
   def get_user_by_id(id) when is_integer(id) do
     case Repo.get(User, id) do
@@ -16,10 +17,24 @@ defmodule AnonRoulette.Resources.Users do
     end
   end
 
+  @doc """
+  Get user by email
+  """
   def get_user_by_email(email) when is_bitstring(email) do
     case Repo.get_by(User, email: email) do
       nil -> {:error, :not_found}
-      %{data: %{is_active: false}} -> {:error, :not_active}
+      %{is_active: false} -> {:error, :not_active}
+      user = %{} -> {:ok, user}
+    end
+  end
+
+  @doc """
+  Get user by username
+  """
+  def get_user_by_username(username) when is_bitstring(username) do
+    case Repo.get_by(User, username: username) do
+      nil -> {:error, :not_found}
+      %{is_active: false} -> {:error, :not_active}
       user = %{} -> {:ok, user}
     end
   end
@@ -63,11 +78,14 @@ defmodule AnonRoulette.Resources.Users do
   @doc """
   Deactivates the user with the matching id
   """
-  def deactivate_user(id) do
-    with {:ok, user} <- get_user_by_id(id) do
-      user
-      |> User.delete_changeset()
-      |> Repo.update()
+  def deactivate_user(user_id) do
+    with {:ok, user} <- get_user_by_id(user_id),
+         {:ok, deactivated_user} <-
+           user
+           |> User.delete_changeset()
+           |> Repo.update() do
+      Tokens.delete_all_tokens(user_id)
+      {:ok, deactivated_user}
     end
   end
 end

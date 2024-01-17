@@ -39,7 +39,7 @@ paths:
                   example: "eyJhbGc2OiJIUVUxMiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJhbm9uX3JvdWxldHRlIiwiZXhwIjoxNzMyOTE3NDA2LCJpYXQiOjE3MDE0Njc4MDYsImlzcyI6ImFub25fcm91bGV0dGUiLCJqdGkiOiIzN2NlODFlNS0xZGVhLTRlNTAtYTI5MS0wNzZlYzE2NmExZDEiLCJuYmYiOjE3MDE0Njc4MDUsInN1YiI6IjEiLCJ0eXAiOiJyZWZyZXNoIn0.tH3Gwkb4J_X2UQraoAi1PxAmMpadHwgNUyypGdoslXANM9gLPN4KZK92EW4v9O4lqNui182FiV2TjJMqGOz_6w"
                 type:
                   type: string
-                  enum: [id, refresh, google]
+                  enum: [id, email, username, refresh, google]
                   example: "refresh"
               required:
                 - token
@@ -54,6 +54,8 @@ paths:
                 $ref: '#/components/schemas/Access and Refresh Token'
         '401':
           $ref: '#/components/responses/401Unauthenticated'
+        '404':
+          description: The account does not exist.
         '422':
           $ref: '#/components/responses/422InvalidType'
     delete:
